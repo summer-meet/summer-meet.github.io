@@ -3,17 +3,137 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Tag: DP | summer</title>
+  <title>poj2449 | summer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
+  <meta name="description" content="A*算法，求解K短路经典问题。所以说STL真是方便。方法是先建立反向图，用DIJ方法求解反向最短路，作为H函数。F(X)=G(X)+H(X).对于队列中某点，第K次出队即K短路。
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40">
 <meta property="og:type" content="website">
-<meta property="og:title" content="summer">
-<meta property="og:url" content="http://summer-meet.github.io/tags/DP/">
+<meta property="og:title" content="poj2449">
+<meta property="og:url" content="http://summer-meet.github.io/ynu1ytf6oh34xcki/poj2449/">
 <meta property="og:site_name" content="summer">
-<meta property="og:description">
+<meta property="og:description" content="A*算法，求解K短路经典问题。所以说STL真是方便。方法是先建立反向图，用DIJ方法求解反向最短路，作为H函数。F(X)=G(X)+H(X).对于队列中某点，第K次出队即K短路。
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="summer">
-<meta name="twitter:description">
+<meta name="twitter:title" content="poj2449">
+<meta name="twitter:description" content="A*算法，求解K短路经典问题。所以说STL真是方便。方法是先建立反向图，用DIJ方法求解反向最短路，作为H函数。F(X)=G(X)+H(X).对于队列中某点，第K次出队即K短路。
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40">
   
     <link rel="alternative" href="/atom.xml" title="summer" type="application/atom+xml">
   
@@ -58,12 +178,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-boj1584" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-poj2449" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/ynu1ytf6oh34xcki/boj1584/" class="article-date">
-  <time datetime="2014-07-12T13:16:36.000Z" itemprop="datePublished">Jul 12 2014</time>
+    <a href="/ynu1ytf6oh34xcki/poj2449/" class="article-date">
+  <time datetime="2014-07-15T03:02:44.000Z" itemprop="datePublished">Jul 15 2014</time>
 </a>
     
   <div class="article-category">
@@ -77,8 +195,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/ynu1ytf6oh34xcki/boj1584/">boj1584 Freeway</a>
+    <h1 class="article-title" itemprop="name">
+      poj2449
     </h1>
   
 
@@ -86,7 +204,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>树上DP</p>
+        <p>A*算法，求解K短路经典问题。所以说STL真是方便。方法是先建立反向图，用DIJ方法求解反向最短路，作为H函数。F(X)=G(X)+H(X).<br>对于队列中某点，第K次出队即K短路。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre>1
 2
 3
@@ -198,198 +316,144 @@
 109
 110
 111
-112
-113
-114
-115
-116
-117
-118
-119
-120
-121
-122
-123
-124
-125
-126
-127
-128
-129
-130
-131
-132
-133
-134
-135
-136
-137
-138
-139
-140
-141
-142
-143
 </pre></td><td class="code"><pre><span class="preprocessor">#include &lt;cstdio&gt;</span>
 <span class="preprocessor">#include &lt;cstring&gt;</span>
+<span class="preprocessor">#include &lt;cmath&gt;</span>
+<span class="preprocessor">#include &lt;algorithm&gt;</span>
+<span class="preprocessor">#include &lt;queue&gt;</span>
 <span class="preprocessor">#include &lt;iostream&gt;</span>
-<span class="preprocessor">#define N 100100</span>
-<span class="preprocessor">#define M 600300</span>
-<span class="preprocessor">#define INF 0x7f7f7f7f</span>
+<span class="preprocessor">#include &lt;bitset&gt;</span>
+<span class="preprocessor">#define N 1010</span>
+<span class="preprocessor">#define M 100100</span>
+<span class="preprocessor">#define INF 0x3f3f3f3f</span>
 
 <span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
 
-<span class="keyword">struct</span> EDGE
+<span class="keyword">int</span> n,m,s,e,k;
+<span class="keyword">int</span> g[N],h[N];
+<span class="keyword">bool</span> vis[N];
+
+<span class="keyword">struct</span> STATUS
 {
+	<span class="keyword">int</span> data,g,h;
+	<span class="keyword">bool</span> <span class="keyword">operator</span> &lt; (STATUS a) <span class="keyword">const</span>
+	{
+		<span class="keyword">return</span> g+h &gt; a.g+a.h;
+	}
+};
+
+priority_queue&lt;STATUS&gt; q;
+
+<span class="keyword">struct</span> EDGE{
     <span class="keyword">int</span> data,cost;
     EDGE * next;
-    EDGE * op;
-} ES[M], * HEAD[N];
+} ES[M&lt;&lt;<span class="number">1</span>], * head[N], backES[M&lt;&lt;<span class="number">1</span>], *backhead[N];
 
-<span class="keyword">int</span> HP;
-<span class="keyword">int</span> que[N],flag[N];
-<span class="keyword">int</span> f[N],dis[N];
-<span class="keyword">int</span> h,t,n,s;
-<span class="keyword">int</span> last,ans;
+<span class="keyword">int</span> HP,backHP;
 
-<span class="keyword">void</span> addedge1(<span class="keyword">int</span> u,<span class="keyword">int</span> v,<span class="keyword">int</span> w)
+<span class="keyword">void</span> addedge(<span class="keyword">int</span> u, <span class="keyword">int</span> v, <span class="keyword">int</span> c)
 {
-    ES[++HP].data=v;  ES[HP].cost=<span class="number">0</span>; ES[HP].next=HEAD[u]; HEAD[u]=ES+HP; 
-    ES[++HP].data=u;  ES[HP].cost=w; ES[HP].next=HEAD[v]; HEAD[v]=ES+HP;
-    ES[HP-<span class="number">1</span>].op=ES+HP; ES[HP].op=ES+HP-<span class="number">1</span>;
+    ES[++HP].data=v; ES[HP].cost=c; ES[HP].next=head[u]; 
+    backES[++backHP].data=u; backES[backHP].cost=c; backES[backHP].next=backhead[v]; 
+    head[u]=ES+HP; backhead[v]=backES+backHP;
 }
 
-<span class="keyword">void</span> addedge2(<span class="keyword">int</span> u,<span class="keyword">int</span> v,<span class="keyword">int</span> w)
+<span class="keyword">void</span> dijkstra()
 {
-    ES[++HP].data=v;  ES[HP].cost=<span class="number">0</span>; ES[HP].next=HEAD[u]; HEAD[u]=ES+HP;
-    ES[++HP].data=u;  ES[HP].cost=<span class="number">0</span>; ES[HP].next=HEAD[v]; HEAD[v]=ES+HP;
-    ES[HP-<span class="number">1</span>].op=ES+HP; ES[HP].op=ES+HP-<span class="number">1</span>;
+	<span class="keyword">int</span> k;
+	<span class="built_in">memset</span>(vis,<span class="number">0</span>,<span class="keyword">sizeof</span> vis);
+	<span class="built_in">memset</span>(h,INF,<span class="keyword">sizeof</span> h);
+	h[e]=<span class="number">0</span>;
+	<span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=n;j++)
+	{
+		k=<span class="number">0</span>;
+		<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)
+			<span class="keyword">if</span> (!vis[i] && (!k || h[i]&lt;h[k])) k=i;
+		vis[k]=<span class="number">1</span>;
+		<span class="keyword">for</span> (EDGE * p=backhead[k];p;p=p-&gt;next)
+		{
+			<span class="keyword">if</span> (h[k]+p-&gt;cost&lt;h[p-&gt;data])
+				h[p-&gt;data]=h[k]+p-&gt;cost;
+		}
+	}
+	<span class="keyword">return</span>;
 }
 
-<span class="keyword">void</span> push(<span class="keyword">int</span> k)
+<span class="keyword">int</span> times[N];
+
+<span class="keyword">int</span> astar()
 {
-    <span class="keyword">if</span> (dis[que[h]]&gt;=dis[k])
-    {
-        que[h]=k;
-        <span class="keyword">if</span> (h==<span class="number">1</span>) h=n;
-        <span class="keyword">else</span> h--;
-    }
-    <span class="keyword">else</span>
-    {
-        t=(t%n)+<span class="number">1</span>;
-        que[t]=k;
-    }
-    flag[k]=<span class="number">1</span>;
+	STATUS qh,temp;
+	<span class="built_in">memset</span>(times,<span class="number">0</span>,<span class="keyword">sizeof</span> times);
+	<span class="keyword">while</span> (!q.empty()) q.pop();
+	qh.data=s, qh.g = qh.h =<span class="number">0</span>; q.push(qh);
+	<span class="keyword">while</span> (!q.empty())
+	{
+		qh=q.top(); q.pop(); times[qh.data]++;
+
+		<span class="keyword">if</span> (times[qh.data]==k && qh.data==e) <span class="keyword">return</span> qh.h+qh.g;
+		<span class="keyword">if</span> (times[qh.data] &gt; k) <span class="keyword">continue</span>;
+		<span class="keyword">for</span> (EDGE * p=head[qh.data];p;p=p-&gt;next)
+		{
+			temp.g = qh.g + p-&gt;cost;
+			temp.h = h[p-&gt;data];
+			temp.data = p-&gt;data;
+			q.push(temp);
+		}
+	}
+	<span class="keyword">return</span> -<span class="number">1</span>;
 }
 
-<span class="keyword">void</span> spfa()
-{
-    <span class="keyword">int</span> x;
-    <span class="built_in">memset</span>(que,<span class="number">0</span>,<span class="keyword">sizeof</span> que);
-    <span class="built_in">memset</span>(flag,<span class="number">0</span>,<span class="keyword">sizeof</span> flag);
-    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">100100</span>;i++) dis[i]=INF;
-    h=<span class="number">0</span>; t=<span class="number">1</span>; que[t]=s; dis[s]=<span class="number">0</span>; flag[s]=<span class="number">1</span>;
-
-    <span class="keyword">while</span> (h!=t)
-    {
-        h=(h % n)+<span class="number">1</span>; x=que[h]; flag[x]=<span class="number">0</span>;
-        <span class="keyword">for</span> (EDGE * p=HEAD[x];p;p=p-&gt;next)
-        {
-            <span class="keyword">if</span> (dis[x]+p-&gt;cost&lt;dis[p-&gt;data])
-            {
-                dis[p-&gt;data]=dis[x]+p-&gt;cost;
-                <span class="keyword">if</span> (!flag[p-&gt;data]) push(p-&gt;data);
-            }
-        }
-    }
-}
-
-<span class="keyword">int</span> dp(<span class="keyword">int</span> x,<span class="keyword">int</span> from)
-{
-    f[x]=<span class="number">0</span>;
-    <span class="keyword">for</span> (EDGE * p=HEAD[x];p;p=p-&gt;next)
-    {
-        <span class="keyword">if</span> (p-&gt;data==from) <span class="keyword">continue</span>;
-        f[x]+=p-&gt;cost+dp(p-&gt;data,x);
-    }
-    <span class="keyword">return</span> f[x];
-}
-
-<span class="keyword">int</span> dfs(<span class="keyword">int</span> x,<span class="keyword">int</span> from)
-{
-    <span class="keyword">if</span> (f[x]&lt;ans) ans=f[x],last=x;
-    <span class="keyword">for</span> (EDGE * p=HEAD[x];p;p=p-&gt;next)
-    {
-        <span class="keyword">if</span> (p-&gt;data==from) <span class="keyword">continue</span>;
-        f[p-&gt;data]=f[x]-p-&gt;cost+p-&gt;op-&gt;cost;
-        dfs(p-&gt;data,x);
-    }
-}
-
-<span class="keyword">void</span> init()
-{
-    HP=-<span class="number">1</span>;
-    <span class="built_in">memset</span>(HEAD,<span class="number">0</span>,<span class="keyword">sizeof</span> HEAD);
-}
 
 <span class="keyword">int</span> main()
 {
-    <span class="keyword">int</span> tt,u,v,w;
-    <span class="keyword">while</span> (<span class="built_in">scanf</span>(<span class="string">"%d"</span>,&n)!=EOF)
-    {
-        init();
-        <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;n;i++)
-        {
-            <span class="built_in">scanf</span>(<span class="string">"%d%d%d%d"</span>,&tt,&u,&v,&w);
-            <span class="keyword">if</span> (tt==<span class="number">1</span>)
-            {
-                <span class="comment">//addedge(u,v,0);</span>
-                addedge1(u,v,w);
-                <span class="comment">//HEAD[u]-&gt;op=HEAD[v];</span>
-                <span class="comment">//HEAD[v]-&gt;op=HEAD[u];</span>
-            }
-            <span class="keyword">else</span>
-            {
-                addedge2(u,v,<span class="number">0</span>);
-                <span class="comment">//addedge(v,u,0);</span>
-                <span class="comment">//HEAD[u]-&gt;op=HEAD[v];</span>
-                <span class="comment">//HEAD[v]-&gt;op=HEAD[u];</span>
-            }
-        }
+	<span class="keyword">int</span> inu,inv,inw;
+	<span class="keyword">while</span> (~<span class="built_in">scanf</span>(<span class="string">"%d%d"</span>,&n,&m))
+	{
+		HP=-<span class="number">1</span>; <span class="built_in">memset</span>(head,<span class="number">0</span>,<span class="keyword">sizeof</span> head);
+		backHP=-<span class="number">1</span>; <span class="built_in">memset</span>(backhead,<span class="number">0</span>,<span class="keyword">sizeof</span> backhead);
 
-        s=<span class="number">0</span>;
-        <span class="keyword">while</span> (HEAD[s]==NULL) s++;
-        <span class="comment">//spfa();</span>
+		<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=m;i++)
+		{
+			<span class="built_in">scanf</span>(<span class="string">"%d%d%d"</span>,&inu,&inv,&inw);
+			addedge(inu,inv,inw);
+		}
+		<span class="built_in">scanf</span>(<span class="string">"%d%d%d"</span>,&s,&e,&k);
 
-        <span class="comment">//for (int i=0;i&lt;100100;i++) f[i]=-1;</span>
-        <span class="comment">//f[s]=0;</span>
-        <span class="comment">//for (int i=0;i&lt;100100;i++) if (dis[i]&lt;INF) f[s]+=dis[i];</span>
-        dp(s,-<span class="number">1</span>);
-
-        ans=INF; last=-<span class="number">1</span>;
-        dfs(s,-<span class="number">1</span>);
-
-        <span class="built_in">printf</span>(<span class="string">"%d %d\n"</span>,last,ans);
-    }
-    <span class="keyword">return</span> <span class="number">0</span>;
+		<span class="keyword">if</span> (s==e) k++;
+		dijkstra();
+		<span class="built_in">printf</span>(<span class="string">"%d\n"</span>,astar());
+	}
+	
+	<span class="keyword">return</span> <span class="number">0</span>;
 }
 </pre></td></tr></table></figure>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://summer-meet.github.io/ynu1ytf6oh34xcki/boj1584/" data-id="fgzyjvhrigzblki6" class="article-share-link">Share</a>
+      <a data-url="http://summer-meet.github.io/ynu1ytf6oh34xcki/poj2449/" data-id="fdniqnn0q16kh4fo" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/BOJ/">BOJ</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DP/">DP</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/POJ/">POJ</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/搜索/">搜索</a></li></ul>
 
     </footer>
   </div>
   
+    
+<nav id="article-nav">
+  
+  
+    <a href="/ynu1ytf6oh34xcki/poj3732/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">poj3732</div>
+    </a>
+  
+</nav>
+
+  
 </article>
 
-
-  
-  
 </section>
         
           <aside id="sidebar">
