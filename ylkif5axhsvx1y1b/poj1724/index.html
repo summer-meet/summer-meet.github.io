@@ -3,17 +3,185 @@
 <head>
   <meta charset="utf-8">
   
-  <title>poj3460 Booksort | summer</title>
+  <title>poj1724 ROADS | summer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="这道题是刘汝佳黑书P169的例题。A*搜索。她的估价函数设计很有趣。因为剪切是以一些连续段落为一个整体，这启发我们应该设计一个和“相对位置”有关系的h函数，例如h(s)=”后继段落正确的段落数目”。显然假设把连续段落S从P1的后面移动到P2的后面。那么只有3个段落的后继有变化:S的最后一个段落,P1,P2.因此h每次最多减少3.虽然这时候仍不相容，但已经是常数级别。可以把h’=h/3作为估价函数值">
+  <meta name="description" content="据说是优先队列广搜的题目，不过其实用深搜剪枝的办法就可以0MS过。直接代码如下。
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56">
 <meta property="og:type" content="website">
-<meta property="og:title" content="poj3460 Booksort">
-<meta property="og:url" content="http://summer-meet.github.io/84ps0k20leq4fdqt/poj3460/">
+<meta property="og:title" content="poj1724 ROADS">
+<meta property="og:url" content="http://summer-meet.github.io/ylkif5axhsvx1y1b/poj1724/">
 <meta property="og:site_name" content="summer">
-<meta property="og:description" content="这道题是刘汝佳黑书P169的例题。A*搜索。她的估价函数设计很有趣。因为剪切是以一些连续段落为一个整体，这启发我们应该设计一个和“相对位置”有关系的h函数，例如h(s)=”后继段落正确的段落数目”。显然假设把连续段落S从P1的后面移动到P2的后面。那么只有3个段落的后继有变化:S的最后一个段落,P1,P2.因此h每次最多减少3.虽然这时候仍不相容，但已经是常数级别。可以把h’=h/3作为估价函数值">
+<meta property="og:description" content="据说是优先队列广搜的题目，不过其实用深搜剪枝的办法就可以0MS过。直接代码如下。
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="poj3460 Booksort">
-<meta name="twitter:description" content="这道题是刘汝佳黑书P169的例题。A*搜索。她的估价函数设计很有趣。因为剪切是以一些连续段落为一个整体，这启发我们应该设计一个和“相对位置”有关系的h函数，例如h(s)=”后继段落正确的段落数目”。显然假设把连续段落S从P1的后面移动到P2的后面。那么只有3个段落的后继有变化:S的最后一个段落,P1,P2.因此h每次最多减少3.虽然这时候仍不相容，但已经是常数级别。可以把h’=h/3作为估价函数值">
+<meta name="twitter:title" content="poj1724 ROADS">
+<meta name="twitter:description" content="据说是优先队列广搜的题目，不过其实用深搜剪枝的办法就可以0MS过。直接代码如下。
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56">
   
     <link rel="alternative" href="/atom.xml" title="summer" type="application/atom+xml">
   
@@ -58,10 +226,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-poj3460" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-poj1724" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/84ps0k20leq4fdqt/poj3460/" class="article-date">
-  <time datetime="2014-07-15T06:14:24.000Z" itemprop="datePublished">Jul 15 2014</time>
+    <a href="/ylkif5axhsvx1y1b/poj1724/" class="article-date">
+  <time datetime="2014-07-12T08:20:50.000Z" itemprop="datePublished">Jul 12 2014</time>
 </a>
     
   <div class="article-category">
@@ -76,7 +244,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      poj3460 Booksort
+      poj1724 ROADS
     </h1>
   
 
@@ -84,8 +252,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>这道题是刘汝佳黑书P169的例题。A*搜索。她的估价函数设计很有趣。<br>因为剪切是以一些连续段落为一个整体，这启发我们应该设计一个和“相对位置”有关系的h函数，例如h(s)=”后继段落正确的段落数目”。显然假设把连续段落S从P1的后面移动到P2的后面。那么只有3个段落的后继有变化:<br>S的最后一个段落,P1,P2.因此h每次最多减少3.虽然这时候仍不相容，但已经是常数级别。可以把h’=h/3作为估价函数值，则每次h最多减少1。但为了方便，可以把f扩大3倍，即f(s)=h(s)+3g(s)，这时候f仍然单调增。</p>
-<p>PS: h(s)函数相容的定义是：h(s)&lt;=h*(s),h(s1)&lt;=h(s2)+c(s1,s2).<br>其中c(s1,s2)指状态S1转移到S2的费用。也就是状态转移时，下界h的减少值最多等于状态转移的实际代价。(h不能减少的太快)</p>
+        <p>据说是优先队列广搜的题目，不过其实用深搜剪枝的办法就可以0MS过。直接代码如下。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre>1
 2
 3
@@ -146,81 +313,71 @@
 58
 59
 60
-61
-62
-63
-64
-65
 </pre></td><td class="code"><pre><span class="preprocessor">#include &lt;cstdio&gt;</span>
 <span class="preprocessor">#include &lt;cstring&gt;</span>
-<span class="preprocessor">#include &lt;cmath&gt;</span>
 <span class="preprocessor">#include &lt;iostream&gt;</span>
 <span class="preprocessor">#include &lt;algorithm&gt;</span>
-<span class="preprocessor">#define N 20</span>
+<span class="preprocessor">#define N 110</span>
+<span class="preprocessor">#define M 30030</span>
+<span class="preprocessor">#define INF 0x3f3f3f3f</span>
+
 <span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
 
-<span class="keyword">int</span> n,ans;
-<span class="keyword">int</span> depth;
-<span class="keyword">int</span> in[N];
+<span class="keyword">struct</span> EDGE{
+    <span class="keyword">int</span> data,cost,len;
+    EDGE * next;
+} ES[M], * head[N];
 
-<span class="keyword">inline</span> <span class="keyword">int</span> h()
+<span class="keyword">int</span> HP,k,n,r;
+<span class="keyword">int</span> si,di,li,ti;
+<span class="keyword">int</span> Queue[N],flag[N],dis[N];
+<span class="keyword">int</span> minlen;
+
+<span class="keyword">void</span> addedge(<span class="keyword">int</span> u, <span class="keyword">int</span> v, <span class="keyword">int</span> c,<span class="keyword">int</span> t)
 {
-	<span class="keyword">int</span> ans=<span class="number">0</span>;
-	<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n-<span class="number">1</span>;i++)
-		<span class="keyword">if</span> (in[i]+<span class="number">1</span>!=in[i+<span class="number">1</span>]) ans++;
-	<span class="keyword">return</span> (ans+<span class="number">2</span>)/<span class="number">3</span>;
+    ES[++HP].data=v; ES[HP].len=c; ES[HP].cost=t; ES[HP].next=head[u]; head[u]=ES+HP;
 }
 
-<span class="keyword">inline</span> <span class="keyword">void</span> _swap(<span class="keyword">int</span> x,<span class="keyword">int</span> y,<span class="keyword">int</span> p,<span class="keyword">int</span> q)
+<span class="keyword">void</span> dfs(<span class="keyword">int</span> x,<span class="keyword">int</span> rest,<span class="keyword">int</span> nowlen)
 {
-	<span class="keyword">int</span> t1=(y-x+<span class="number">1</span>)&gt;&gt;<span class="number">1</span>,t2=(q-p+<span class="number">1</span>)&gt;&gt;<span class="number">1</span>,t3=(q-x+<span class="number">1</span>)&gt;&gt;<span class="number">1</span>;
-	<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;t1;i++) swap(in[x+i],in[y-i]);
-	<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;t2;i++) swap(in[p+i],in[q-i]);
-	<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;t3;i++) swap(in[x+i],in[q-i]);
-} 
-
-<span class="keyword">void</span> astar(<span class="keyword">int</span> s,<span class="keyword">int</span> depth)
-{
-	<span class="keyword">int</span> th=h();
-	<span class="keyword">if</span> (th==<span class="number">0</span>) {ans=s; <span class="keyword">return</span>;}
-	<span class="keyword">if</span> (s+th&gt;depth) <span class="keyword">return</span>;
-
-	<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n-<span class="number">1</span>;i++)
-		<span class="keyword">for</span> (<span class="keyword">int</span> j=i+<span class="number">1</span>;j&lt;n;j++)
-			<span class="keyword">for</span> (<span class="keyword">int</span> k=i;k&lt;j;k++)
-			{
-				<span class="keyword">if</span> (ans!=-<span class="number">1</span>) <span class="keyword">return</span>;
-				_swap(i,k,k+<span class="number">1</span>,j);
-				astar(s+<span class="number">1</span>,depth);
-				_swap(i,j-k+i-<span class="number">1</span>,j-k+i,j);
-			}
-	<span class="keyword">return</span>;
+	<span class="keyword">if</span> (x==n) 
+	{
+		<span class="keyword">if</span> (nowlen&lt;minlen) minlen = nowlen;
+		<span class="keyword">return</span>;
+	}
+	<span class="keyword">for</span> (EDGE * p=head[x];p;p=p-&gt;next)
+	{
+		<span class="keyword">if</span> (flag[p-&gt;data]) <span class="keyword">continue</span>;
+		<span class="keyword">if</span> (p-&gt;cost&gt;rest) <span class="keyword">continue</span>;
+		<span class="keyword">if</span> (nowlen+p-&gt;len&gt;=minlen) <span class="keyword">continue</span>;
+		flag[p-&gt;data]=<span class="number">1</span>;
+		dfs(p-&gt;data,rest-p-&gt;cost,nowlen+p-&gt;len);
+		flag[p-&gt;data]=<span class="number">0</span>;
+	}
 }
-
 
 <span class="keyword">int</span> main()
 {
-	<span class="keyword">int</span> T;
-	<span class="built_in">scanf</span>(<span class="string">"%d"</span>,&T);
-	<span class="keyword">while</span> (T--)
+	HP=-<span class="number">1</span>; <span class="built_in">memset</span>(head,<span class="number">0</span>,<span class="keyword">sizeof</span> head);
+	<span class="built_in">memset</span>(flag,<span class="number">0</span>,<span class="keyword">sizeof</span> flag);
+	<span class="built_in">scanf</span>(<span class="string">"%d"</span>,&k);
+	<span class="built_in">scanf</span>(<span class="string">"%d%d"</span>,&n,&r);
+	<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;r;i++)
 	{
-		<span class="built_in">scanf</span>(<span class="string">"%d"</span>,&n);
-		<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++) <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&in[i]);
-		
-		ans=-<span class="number">1</span>;
-		<span class="keyword">for</span> (<span class="keyword">int</span> depth=h();depth&lt;=<span class="number">4</span> && ans==-<span class="number">1</span>;depth++)
-			astar(<span class="number">0</span>,depth);
-
-		<span class="keyword">if</span> (ans==-<span class="number">1</span>) <span class="built_in">printf</span>(<span class="string">"5 or more\n"</span>);
-		<span class="keyword">else</span> <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,ans);
+		<span class="built_in">scanf</span>(<span class="string">"%d%d%d%d"</span>,&si,&di,&li,&ti);
+		addedge(si,di,li,ti);
 	}
+	minlen = INF;
+	dfs(<span class="number">1</span>,k,<span class="number">0</span>);
+	<span class="keyword">if</span> (minlen&lt;INF) <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,minlen);
+	<span class="keyword">else</span> <span class="built_in">printf</span>(<span class="string">"-1\n"</span>);
 	<span class="keyword">return</span> <span class="number">0</span>;
 }
 </pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://summer-meet.github.io/84ps0k20leq4fdqt/poj3460/" data-id="iqcvtn5hyx05hv5g" class="article-share-link">Share</a>
+      <a data-url="http://summer-meet.github.io/ylkif5axhsvx1y1b/poj1724/" data-id="1cdwyu9tdn2ee37q" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/POJ/">POJ</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/搜索/">搜索</a></li></ul>
@@ -231,19 +388,19 @@
     
 <nav id="article-nav">
   
-    <a href="/84ps0k20leq4fdqt/poj1324/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/ylkif5axhsvx1y1b/poj1077/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          poj1324 Holedox Moving
+          poj1077 Eight
         
       </div>
     </a>
   
   
-    <a href="/84ps0k20leq4fdqt/poj2449/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/ylkif5axhsvx1y1b/codestart/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">poj2449 Remmarguts&#39; Date</div>
+      <div class="article-nav-title">codestart</div>
     </a>
   
 </nav>
@@ -298,23 +455,23 @@
       <ul>
         
           <li>
-            <a href="/84ps0k20leq4fdqt/poj1324/">poj1324 Holedox Moving</a>
+            <a href="/ylkif5axhsvx1y1b/poj1324/">poj1324 Holedox Moving</a>
           </li>
         
           <li>
-            <a href="/84ps0k20leq4fdqt/poj3460/">poj3460 Booksort</a>
+            <a href="/ylkif5axhsvx1y1b/poj3460/">poj3460 Booksort</a>
           </li>
         
           <li>
-            <a href="/84ps0k20leq4fdqt/poj2449/">poj2449 Remmarguts&#39; Date</a>
+            <a href="/ylkif5axhsvx1y1b/poj2449/">poj2449 Remmarguts&#39; Date</a>
           </li>
         
           <li>
-            <a href="/84ps0k20leq4fdqt/poj3732/">poj3732 Paint Me Less</a>
+            <a href="/ylkif5axhsvx1y1b/poj3732/">poj3732 Paint Me Less</a>
           </li>
         
           <li>
-            <a href="/84ps0k20leq4fdqt/boj1584/">boj1584 Freeway</a>
+            <a href="/ylkif5axhsvx1y1b/boj1584/">boj1584 Freeway</a>
           </li>
         
       </ul>

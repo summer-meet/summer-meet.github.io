@@ -5,15 +5,18 @@
   
   <title>poj1324 Holedox Moving | summer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="好了。被虐一下午的BOSS.至此搜索专题基本毕业o(╯□╰)o贪吃蛇问题，给出蛇的初始位置和障碍物，问蛇能否到达(1,1)是一道状态设计很巧妙的题目。不过这里被STL卡了好久。换成手写队列后就一遍过了。首先。我们考虑最极端的情况，蛇的长度最大的时候有8段，我们如果要记录这8段的位置，位置的可能是 20 * 20＝400，那么就可能会用到(400)^8的空间。分析下去，我们会发现，如果蛇头的位置确定">
+  <meta name="description" content="好了。被虐一下午的BOSS.至此搜索专题基本毕业o(╯□╰)o贪吃蛇问题，给出蛇的初始位置和障碍物，问蛇能否到达(1,1)是一道状态设计很巧妙的题目。不过这里被STL卡了好久。换成手写队列后就一遍过了。首先。我们考虑最极端的情况，蛇的长度最大的时候有8段，我们如果要记录这8段的位置，位置的可能是 20 * 20＝400，那么就可能会用到(400)^8的空间。
+分析下去，我们会发现，如果蛇头的位置确">
 <meta property="og:type" content="website">
 <meta property="og:title" content="poj1324 Holedox Moving">
-<meta property="og:url" content="http://summer-meet.github.io/84ps0k20leq4fdqt/poj1324/">
+<meta property="og:url" content="http://summer-meet.github.io/ylkif5axhsvx1y1b/poj1324/">
 <meta property="og:site_name" content="summer">
-<meta property="og:description" content="好了。被虐一下午的BOSS.至此搜索专题基本毕业o(╯□╰)o贪吃蛇问题，给出蛇的初始位置和障碍物，问蛇能否到达(1,1)是一道状态设计很巧妙的题目。不过这里被STL卡了好久。换成手写队列后就一遍过了。首先。我们考虑最极端的情况，蛇的长度最大的时候有8段，我们如果要记录这8段的位置，位置的可能是 20 * 20＝400，那么就可能会用到(400)^8的空间。分析下去，我们会发现，如果蛇头的位置确定">
+<meta property="og:description" content="好了。被虐一下午的BOSS.至此搜索专题基本毕业o(╯□╰)o贪吃蛇问题，给出蛇的初始位置和障碍物，问蛇能否到达(1,1)是一道状态设计很巧妙的题目。不过这里被STL卡了好久。换成手写队列后就一遍过了。首先。我们考虑最极端的情况，蛇的长度最大的时候有8段，我们如果要记录这8段的位置，位置的可能是 20 * 20＝400，那么就可能会用到(400)^8的空间。
+分析下去，我们会发现，如果蛇头的位置确">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="poj1324 Holedox Moving">
-<meta name="twitter:description" content="好了。被虐一下午的BOSS.至此搜索专题基本毕业o(╯□╰)o贪吃蛇问题，给出蛇的初始位置和障碍物，问蛇能否到达(1,1)是一道状态设计很巧妙的题目。不过这里被STL卡了好久。换成手写队列后就一遍过了。首先。我们考虑最极端的情况，蛇的长度最大的时候有8段，我们如果要记录这8段的位置，位置的可能是 20 * 20＝400，那么就可能会用到(400)^8的空间。分析下去，我们会发现，如果蛇头的位置确定">
+<meta name="twitter:description" content="好了。被虐一下午的BOSS.至此搜索专题基本毕业o(╯□╰)o贪吃蛇问题，给出蛇的初始位置和障碍物，问蛇能否到达(1,1)是一道状态设计很巧妙的题目。不过这里被STL卡了好久。换成手写队列后就一遍过了。首先。我们考虑最极端的情况，蛇的长度最大的时候有8段，我们如果要记录这8段的位置，位置的可能是 20 * 20＝400，那么就可能会用到(400)^8的空间。
+分析下去，我们会发现，如果蛇头的位置确">
   
     <link rel="alternative" href="/atom.xml" title="summer" type="application/atom+xml">
   
@@ -60,7 +63,7 @@
       <div class="outer">
         <section id="main"><article id="post-poj1324" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/84ps0k20leq4fdqt/poj1324/" class="article-date">
+    <a href="/ylkif5axhsvx1y1b/poj1324/" class="article-date">
   <time datetime="2014-07-15T10:51:06.000Z" itemprop="datePublished">Jul 15 2014</time>
 </a>
     
@@ -84,7 +87,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>好了。被虐一下午的BOSS.至此搜索专题基本毕业o(╯□╰)o<br>贪吃蛇问题，给出蛇的初始位置和障碍物，问蛇能否到达(1,1)<br>是一道状态设计很巧妙的题目。不过这里被STL卡了好久。换成手写队列后就一遍过了。<br>首先。我们考虑最极端的情况，蛇的长度最大的时候有8段，我们如果要记录这8段的位置，位置的可能是 20 * 20＝400，那么就可能会用到(400)^8的空间。<br>分析下去，我们会发现，如果蛇头的位置确定，那么蛇身可以从蛇头按４个方向一直走到蛇尾。这样状态数只为 20 * 20 * (4)^7 = 6553600<br>一个的数组还是可以承受的。这样就可以做到了。</p>
+        <p>好了。被虐一下午的BOSS.至此搜索专题基本毕业o(╯□╰)o<br>贪吃蛇问题，给出蛇的初始位置和障碍物，问蛇能否到达(1,1)<br>是一道状态设计很巧妙的题目。不过这里被STL卡了好久。换成手写队列后就一遍过了。<br>首先。我们考虑最极端的情况，蛇的长度最大的时候有8段，我们如果要记录这8段的位置，位置的可能是 20 * 20＝400，那么就可能会用到(400)^8的空间。</p>
+<p>分析下去，我们会发现，如果蛇头的位置确定，那么蛇身可以从蛇头按４个方向一直走到蛇尾。这样状态数只为 20 * 20 * (4)^7 = 6553600<br>一个的数组还是可以承受的。这样就可以做到了。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre>1
 2
 3
@@ -315,7 +319,7 @@ STATUS q[<span class="number">500000</span>];
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://summer-meet.github.io/84ps0k20leq4fdqt/poj1324/" data-id="59iic59mbg0yghxo" class="article-share-link">Share</a>
+      <a data-url="http://summer-meet.github.io/ylkif5axhsvx1y1b/poj1324/" data-id="abopu2ti9p6d9a5s" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/POJ/">POJ</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/搜索/">搜索</a></li></ul>
@@ -327,7 +331,7 @@ STATUS q[<span class="number">500000</span>];
 <nav id="article-nav">
   
   
-    <a href="/84ps0k20leq4fdqt/poj3460/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/ylkif5axhsvx1y1b/poj3460/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
       <div class="article-nav-title">poj3460 Booksort</div>
     </a>
@@ -384,23 +388,23 @@ STATUS q[<span class="number">500000</span>];
       <ul>
         
           <li>
-            <a href="/84ps0k20leq4fdqt/poj1324/">poj1324 Holedox Moving</a>
+            <a href="/ylkif5axhsvx1y1b/poj1324/">poj1324 Holedox Moving</a>
           </li>
         
           <li>
-            <a href="/84ps0k20leq4fdqt/poj3460/">poj3460 Booksort</a>
+            <a href="/ylkif5axhsvx1y1b/poj3460/">poj3460 Booksort</a>
           </li>
         
           <li>
-            <a href="/84ps0k20leq4fdqt/poj2449/">poj2449 Remmarguts&#39; Date</a>
+            <a href="/ylkif5axhsvx1y1b/poj2449/">poj2449 Remmarguts&#39; Date</a>
           </li>
         
           <li>
-            <a href="/84ps0k20leq4fdqt/poj3732/">poj3732 Paint Me Less</a>
+            <a href="/ylkif5axhsvx1y1b/poj3732/">poj3732 Paint Me Less</a>
           </li>
         
           <li>
-            <a href="/84ps0k20leq4fdqt/boj1584/">boj1584 Freeway</a>
+            <a href="/ylkif5axhsvx1y1b/boj1584/">boj1584 Freeway</a>
           </li>
         
       </ul>
