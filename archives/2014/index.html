@@ -60,9 +60,80 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-superinput" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/dfc0mul83rnnqh4j/superinput/" class="article-date">
+  <time datetime="2014-07-17T11:55:18.000Z" itemprop="datePublished">Jul 17 2014</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/a-thousand-floor/">a-thousand-floor</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/dfc0mul83rnnqh4j/superinput/">一个输入“外挂”</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>今天学到了%c比%d读入快的知识。。下面贴两个转化函数。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="code"><pre><span class="keyword">int</span> getint_neg(){
+	<span class="keyword">char</span> c=getchar();<span class="keyword">bool</span> neg=<span class="number">0</span>;
+	<span class="keyword">while</span>(c&lt;<span class="string">'0'</span>||c&gt;<span class="string">'9'</span>){<span class="keyword">if</span>(c==<span class="string">'-'</span>)neg=<span class="number">1</span>;c=getchar();}
+	<span class="keyword">int</span> ret=<span class="number">0</span>;
+	<span class="keyword">while</span>(c&gt;<span class="string">'0'</span>-<span class="number">1</span>&&c&lt;<span class="string">'9'</span>+<span class="number">1</span>){
+		ret=ret*<span class="number">10</span>+(c-<span class="string">'0'</span>);
+		c=getchar();
+	}
+	<span class="keyword">return</span> neg?-ret:ret;
+}
+</pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre>c=getchar();
+<span class="keyword">while</span> (!<span class="built_in">isdigit</span>(c)) c=getchar();  
+<span class="keyword">if</span> (c==<span class="string">'1'</span>) dlx.insert(i,j);
+</pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://summer-meet.github.io/dfc0mul83rnnqh4j/superinput/" data-id="r51keqnuvf5wdhw5" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tips/">tips</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-poj3740" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/dm9idn3prqj87u35/poj3740/" class="article-date">
+    <a href="/dfc0mul83rnnqh4j/poj3740/" class="article-date">
   <time datetime="2014-07-17T11:39:33.000Z" itemprop="datePublished">Jul 17 2014</time>
 </a>
     
@@ -78,7 +149,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/dm9idn3prqj87u35/poj3740/">poj3740 Easy Finding</a>
+      <a class="article-title" href="/dfc0mul83rnnqh4j/poj3740/">poj3740 Easy Finding</a>
     </h1>
   
 
@@ -313,9 +384,9 @@
 			{
 				<span class="comment">//scanf("%d",&in);</span>
 				<span class="comment">//if (in==1) dlx.insert(i,j);</span>
-				c=getchar();  
-                <span class="keyword">while</span> (!<span class="built_in">isdigit</span>(c)) c=getchar();  
-                <span class="keyword">if</span> (c==<span class="string">'1'</span>) dlx.insert(i,j);
+				c=getchar();
+				<span class="keyword">while</span> (!<span class="built_in">isdigit</span>(c)) c=getchar();  
+				<span class="keyword">if</span> (c==<span class="string">'1'</span>) dlx.insert(i,j);
 			}
 		
 		<span class="keyword">if</span> (dlx.dfs(<span class="number">0</span>)) <span class="built_in">printf</span>(<span class="string">"Yes, I found it\n"</span>);
@@ -327,7 +398,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://summer-meet.github.io/dm9idn3prqj87u35/poj3740/" data-id="a3s5cj18hpdyu5hp" class="article-share-link">Share</a>
+      <a data-url="http://summer-meet.github.io/dfc0mul83rnnqh4j/poj3740/" data-id="vu1jn4vfbh81g5zn" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Dancing-Links/">Dancing Links</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/POJ/">POJ</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/搜索/">搜索</a></li></ul>
@@ -341,7 +412,7 @@
   
     <article id="post-poj1324" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/dm9idn3prqj87u35/poj1324/" class="article-date">
+    <a href="/dfc0mul83rnnqh4j/poj1324/" class="article-date">
   <time datetime="2014-07-15T10:51:06.000Z" itemprop="datePublished">Jul 15 2014</time>
 </a>
     
@@ -357,7 +428,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/dm9idn3prqj87u35/poj1324/">poj1324 Holedox Moving</a>
+      <a class="article-title" href="/dfc0mul83rnnqh4j/poj1324/">poj1324 Holedox Moving</a>
     </h1>
   
 
@@ -597,7 +668,7 @@ STATUS q[<span class="number">500000</span>];
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://summer-meet.github.io/dm9idn3prqj87u35/poj1324/" data-id="jm23uenh1pcx9mru" class="article-share-link">Share</a>
+      <a data-url="http://summer-meet.github.io/dfc0mul83rnnqh4j/poj1324/" data-id="4lpnjfyzfgaljnoi" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/POJ/">POJ</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/搜索/">搜索</a></li></ul>
@@ -611,7 +682,7 @@ STATUS q[<span class="number">500000</span>];
   
     <article id="post-poj3460" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/dm9idn3prqj87u35/poj3460/" class="article-date">
+    <a href="/dfc0mul83rnnqh4j/poj3460/" class="article-date">
   <time datetime="2014-07-15T06:14:24.000Z" itemprop="datePublished">Jul 15 2014</time>
 </a>
     
@@ -627,7 +698,7 @@ STATUS q[<span class="number">500000</span>];
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/dm9idn3prqj87u35/poj3460/">poj3460 Booksort</a>
+      <a class="article-title" href="/dfc0mul83rnnqh4j/poj3460/">poj3460 Booksort</a>
     </h1>
   
 
@@ -771,7 +842,7 @@ STATUS q[<span class="number">500000</span>];
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://summer-meet.github.io/dm9idn3prqj87u35/poj3460/" data-id="5e0pqwx0pntg65ja" class="article-share-link">Share</a>
+      <a data-url="http://summer-meet.github.io/dfc0mul83rnnqh4j/poj3460/" data-id="2dmnokay6b7l24rj" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/POJ/">POJ</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/搜索/">搜索</a></li></ul>
@@ -785,7 +856,7 @@ STATUS q[<span class="number">500000</span>];
   
     <article id="post-poj2449" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/dm9idn3prqj87u35/poj2449/" class="article-date">
+    <a href="/dfc0mul83rnnqh4j/poj2449/" class="article-date">
   <time datetime="2014-07-15T03:02:44.000Z" itemprop="datePublished">Jul 15 2014</time>
 </a>
     
@@ -801,7 +872,7 @@ STATUS q[<span class="number">500000</span>];
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/dm9idn3prqj87u35/poj2449/">poj2449 Remmarguts&#39; Date</a>
+      <a class="article-title" href="/dfc0mul83rnnqh4j/poj2449/">poj2449 Remmarguts&#39; Date</a>
     </h1>
   
 
@@ -1037,7 +1108,7 @@ priority_queue&lt;STATUS&gt; q;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://summer-meet.github.io/dm9idn3prqj87u35/poj2449/" data-id="7d5nftaa4xolga0n" class="article-share-link">Share</a>
+      <a data-url="http://summer-meet.github.io/dfc0mul83rnnqh4j/poj2449/" data-id="fp84407tdon0651s" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/POJ/">POJ</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/搜索/">搜索</a></li></ul>
@@ -1051,7 +1122,7 @@ priority_queue&lt;STATUS&gt; q;
   
     <article id="post-poj3732" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/dm9idn3prqj87u35/poj3732/" class="article-date">
+    <a href="/dfc0mul83rnnqh4j/poj3732/" class="article-date">
   <time datetime="2014-07-14T13:37:41.000Z" itemprop="datePublished">Jul 14 2014</time>
 </a>
     
@@ -1067,7 +1138,7 @@ priority_queue&lt;STATUS&gt; q;
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/dm9idn3prqj87u35/poj3732/">poj3732 Paint Me Less</a>
+      <a class="article-title" href="/dfc0mul83rnnqh4j/poj3732/">poj3732 Paint Me Less</a>
     </h1>
   
 
@@ -1330,7 +1401,7 @@ priority_queue&lt;STATUS&gt; q;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://summer-meet.github.io/dm9idn3prqj87u35/poj3732/" data-id="j6w9765asegsly09" class="article-share-link">Share</a>
+      <a data-url="http://summer-meet.github.io/dfc0mul83rnnqh4j/poj3732/" data-id="qsd01fv6ehk38moc" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/poj/">poj</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/zip/">zip</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/搜索/">搜索</a></li></ul>
@@ -1344,7 +1415,7 @@ priority_queue&lt;STATUS&gt; q;
   
     <article id="post-boj1584" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/dm9idn3prqj87u35/boj1584/" class="article-date">
+    <a href="/dfc0mul83rnnqh4j/boj1584/" class="article-date">
   <time datetime="2014-07-12T13:16:36.000Z" itemprop="datePublished">Jul 12 2014</time>
 </a>
     
@@ -1360,7 +1431,7 @@ priority_queue&lt;STATUS&gt; q;
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/dm9idn3prqj87u35/boj1584/">boj1584 Freeway</a>
+      <a class="article-title" href="/dfc0mul83rnnqh4j/boj1584/">boj1584 Freeway</a>
     </h1>
   
 
@@ -1659,7 +1730,7 @@ priority_queue&lt;STATUS&gt; q;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://summer-meet.github.io/dm9idn3prqj87u35/boj1584/" data-id="hejl5nddog0gjai7" class="article-share-link">Share</a>
+      <a data-url="http://summer-meet.github.io/dfc0mul83rnnqh4j/boj1584/" data-id="4cs9qopdt3t19h2q" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/BOJ/">BOJ</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DP/">DP</a></li></ul>
@@ -1673,7 +1744,7 @@ priority_queue&lt;STATUS&gt; q;
   
     <article id="post-poj1077" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/dm9idn3prqj87u35/poj1077/" class="article-date">
+    <a href="/dfc0mul83rnnqh4j/poj1077/" class="article-date">
   <time datetime="2014-07-12T12:21:24.000Z" itemprop="datePublished">Jul 12 2014</time>
 </a>
     
@@ -1689,7 +1760,7 @@ priority_queue&lt;STATUS&gt; q;
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/dm9idn3prqj87u35/poj1077/">poj1077 Eight</a>
+      <a class="article-title" href="/dfc0mul83rnnqh4j/poj1077/">poj1077 Eight</a>
     </h1>
   
 
@@ -2142,7 +2213,7 @@ STATUS s,s1,s2,t;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://summer-meet.github.io/dm9idn3prqj87u35/poj1077/" data-id="1tu5knuuzpsrle75" class="article-share-link">Share</a>
+      <a data-url="http://summer-meet.github.io/dfc0mul83rnnqh4j/poj1077/" data-id="fwrch6tnn8ww61z9" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Cantor_Expansion/">Cantor_Expansion</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DBFS/">DBFS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/POJ/">POJ</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/搜索/">搜索</a></li></ul>
@@ -2156,7 +2227,7 @@ STATUS s,s1,s2,t;
   
     <article id="post-poj1724" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/dm9idn3prqj87u35/poj1724/" class="article-date">
+    <a href="/dfc0mul83rnnqh4j/poj1724/" class="article-date">
   <time datetime="2014-07-12T08:20:50.000Z" itemprop="datePublished">Jul 12 2014</time>
 </a>
     
@@ -2172,7 +2243,7 @@ STATUS s,s1,s2,t;
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/dm9idn3prqj87u35/poj1724/">poj1724 ROADS</a>
+      <a class="article-title" href="/dfc0mul83rnnqh4j/poj1724/">poj1724 ROADS</a>
     </h1>
   
 
@@ -2305,7 +2376,7 @@ STATUS s,s1,s2,t;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://summer-meet.github.io/dm9idn3prqj87u35/poj1724/" data-id="mwlv9m8r7j8s5v1k" class="article-share-link">Share</a>
+      <a data-url="http://summer-meet.github.io/dfc0mul83rnnqh4j/poj1724/" data-id="zbrot238qy4o8sdc" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/POJ/">POJ</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/搜索/">搜索</a></li></ul>
@@ -2319,7 +2390,7 @@ STATUS s,s1,s2,t;
   
     <article id="post-codestart" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/dm9idn3prqj87u35/codestart/" class="article-date">
+    <a href="/dfc0mul83rnnqh4j/codestart/" class="article-date">
   <time datetime="2014-07-08T16:00:00.000Z" itemprop="datePublished">Jul 9 2014</time>
 </a>
     
@@ -2335,7 +2406,7 @@ STATUS s,s1,s2,t;
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/dm9idn3prqj87u35/codestart/">codestart</a>
+      <a class="article-title" href="/dfc0mul83rnnqh4j/codestart/">codestart</a>
     </h1>
   
 
@@ -2361,52 +2432,7 @@ STATUS s,s1,s2,t;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://summer-meet.github.io/dm9idn3prqj87u35/codestart/" data-id="r4bav5phg4cft650" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-what-time-cut" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/ubu334nhjhbfgqhf/what-time-cut/" class="article-date">
-  <time datetime="2014-06-22T00:00:00.000Z" itemprop="datePublished">Jun 22 2014</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/something-for-nothing/">something-for-nothing</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/ubu334nhjhbfgqhf/what-time-cut/">what-time-cut</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>有人说，时光不老，我们不散。</p>
-<blockquote>
-<p>“你好像瘦了，头发也变长了，背影陌生到让我觉得，见你是上个世纪的事，然后你开口叫我名字，我就想笑，好像自己刚刚放学，只在楼门口等了你五分钟而已。”</p>
-</blockquote>
-<p>是啊，虽然那个光与影交错的地方有一层晕，但我走过街去，就要斩开它。那就是时光，我得庆幸很多时候我斩得开，那我就能回到以前的某个几分钟，几小时或更长久，尽管并不是每一次都能做到。<br>所以有人说，所谓曹操的绝影只是一个传说。布加迪威龙是世界上最快量产跑车，可它跑不过时光，也跑不过早已被注定的命运。这个，也只信一半。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://summer-meet.github.io/ubu334nhjhbfgqhf/what-time-cut/" data-id="d1tv87uv7ql6gmuf" class="article-share-link">Share</a>
+      <a data-url="http://summer-meet.github.io/dfc0mul83rnnqh4j/codestart/" data-id="uz2o50v78ypbpcxj" class="article-share-link">Share</a>
       
       
     </footer>
@@ -2429,7 +2455,7 @@ STATUS s,s1,s2,t;
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/a-thousand-floor/">a-thousand-floor</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/black-sheep-wall/">black-sheep-wall</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/something-for-nothing/">something-for-nothing</a><span class="category-list-count">2</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/a-thousand-floor/">a-thousand-floor</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/black-sheep-wall/">black-sheep-wall</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/something-for-nothing/">something-for-nothing</a><span class="category-list-count">2</span></li></ul>
     </div>
   </div>
 
@@ -2438,7 +2464,7 @@ STATUS s,s1,s2,t;
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/BOJ/">BOJ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cantor_Expansion/">Cantor_Expansion</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DBFS/">DBFS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DP/">DP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dancing-Links/">Dancing Links</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/POJ/">POJ</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/poj/">poj</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zip/">zip</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/搜索/">搜索</a><span class="tag-list-count">7</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/BOJ/">BOJ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cantor_Expansion/">Cantor_Expansion</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DBFS/">DBFS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DP/">DP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dancing-Links/">Dancing Links</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/POJ/">POJ</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/poj/">poj</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tips/">tips</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zip/">zip</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/搜索/">搜索</a><span class="tag-list-count">7</span></li></ul>
     </div>
   </div>
 
@@ -2447,7 +2473,7 @@ STATUS s,s1,s2,t;
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/BOJ/" style="font-size: 10.00px;">BOJ</a><a href="/tags/Cantor_Expansion/" style="font-size: 10.00px;">Cantor_Expansion</a><a href="/tags/DBFS/" style="font-size: 10.00px;">DBFS</a><a href="/tags/DP/" style="font-size: 10.00px;">DP</a><a href="/tags/Dancing-Links/" style="font-size: 10.00px;">Dancing Links</a><a href="/tags/POJ/" style="font-size: 15.00px;">POJ</a><a href="/tags/poj/" style="font-size: 10.00px;">poj</a><a href="/tags/zip/" style="font-size: 10.00px;">zip</a><a href="/tags/搜索/" style="font-size: 20.00px;">搜索</a>
+      <a href="/tags/BOJ/" style="font-size: 10.00px;">BOJ</a><a href="/tags/Cantor_Expansion/" style="font-size: 10.00px;">Cantor_Expansion</a><a href="/tags/DBFS/" style="font-size: 10.00px;">DBFS</a><a href="/tags/DP/" style="font-size: 10.00px;">DP</a><a href="/tags/Dancing-Links/" style="font-size: 10.00px;">Dancing Links</a><a href="/tags/POJ/" style="font-size: 15.00px;">POJ</a><a href="/tags/poj/" style="font-size: 10.00px;">poj</a><a href="/tags/tips/" style="font-size: 10.00px;">tips</a><a href="/tags/zip/" style="font-size: 10.00px;">zip</a><a href="/tags/搜索/" style="font-size: 20.00px;">搜索</a>
     </div>
   </div>
 
@@ -2456,7 +2482,7 @@ STATUS s,s1,s2,t;
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07">July 2014</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06">June 2014</a><span class="archive-list-count">6</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07">July 2014</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06">June 2014</a><span class="archive-list-count">6</span></li></ul>
     </div>
   </div>
 
@@ -2468,23 +2494,23 @@ STATUS s,s1,s2,t;
       <ul>
         
           <li>
-            <a href="/dm9idn3prqj87u35/poj3740/">poj3740 Easy Finding</a>
+            <a href="/dfc0mul83rnnqh4j/superinput/">一个输入“外挂”</a>
           </li>
         
           <li>
-            <a href="/dm9idn3prqj87u35/poj1324/">poj1324 Holedox Moving</a>
+            <a href="/dfc0mul83rnnqh4j/poj3740/">poj3740 Easy Finding</a>
           </li>
         
           <li>
-            <a href="/dm9idn3prqj87u35/poj3460/">poj3460 Booksort</a>
+            <a href="/dfc0mul83rnnqh4j/poj1324/">poj1324 Holedox Moving</a>
           </li>
         
           <li>
-            <a href="/dm9idn3prqj87u35/poj2449/">poj2449 Remmarguts&#39; Date</a>
+            <a href="/dfc0mul83rnnqh4j/poj3460/">poj3460 Booksort</a>
           </li>
         
           <li>
-            <a href="/dm9idn3prqj87u35/poj3732/">poj3732 Paint Me Less</a>
+            <a href="/dfc0mul83rnnqh4j/poj2449/">poj2449 Remmarguts&#39; Date</a>
           </li>
         
       </ul>
