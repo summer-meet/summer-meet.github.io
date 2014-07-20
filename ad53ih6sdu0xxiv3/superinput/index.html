@@ -3,17 +3,62 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Archives: 2014/7 | summer</title>
+  <title>一个输入“外挂” | summer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
+  <meta name="description" content="今天学到了%c比%d读入快的知识。。下面贴两个转化函数。
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+int getint_neg(){
+	char c=getchar();bool neg=0;
+	while(c&lt;'0'||c&gt;'9'){if(c=='-')neg=1;c=getchar();}
+	int ret=0;
+	while(c&gt;'0'-1&&c&lt;'9'+1){">
 <meta property="og:type" content="website">
-<meta property="og:title" content="summer">
-<meta property="og:url" content="http://summer-meet.github.io/archives/2014/07/page/2/">
+<meta property="og:title" content="一个输入“外挂”">
+<meta property="og:url" content="http://summer-meet.github.io/ad53ih6sdu0xxiv3/superinput/">
 <meta property="og:site_name" content="summer">
-<meta property="og:description">
+<meta property="og:description" content="今天学到了%c比%d读入快的知识。。下面贴两个转化函数。
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+int getint_neg(){
+	char c=getchar();bool neg=0;
+	while(c&lt;'0'||c&gt;'9'){if(c=='-')neg=1;c=getchar();}
+	int ret=0;
+	while(c&gt;'0'-1&&c&lt;'9'+1){">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="summer">
-<meta name="twitter:description">
+<meta name="twitter:title" content="一个输入“外挂”">
+<meta name="twitter:description" content="今天学到了%c比%d读入快的知识。。下面贴两个转化函数。
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+int getint_neg(){
+	char c=getchar();bool neg=0;
+	while(c&lt;'0'||c&gt;'9'){if(c=='-')neg=1;c=getchar();}
+	int ret=0;
+	while(c&gt;'0'-1&&c&lt;'9'+1){">
   
     <link rel="alternative" href="/atom.xml" title="summer" type="application/atom+xml">
   
@@ -58,12 +103,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-codestart" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-superinput" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/ad53ih6sdu0xxiv3/codestart/" class="article-date">
-  <time datetime="2014-07-08T16:00:00.000Z" itemprop="datePublished">Jul 9 2014</time>
+    <a href="/ad53ih6sdu0xxiv3/superinput/" class="article-date">
+  <time datetime="2014-07-17T11:55:18.000Z" itemprop="datePublished">Jul 17 2014</time>
 </a>
     
   <div class="article-category">
@@ -77,8 +120,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/ad53ih6sdu0xxiv3/codestart/">codestart</a>
+    <h1 class="article-title" itemprop="name">
+      一个输入“外挂”
     </h1>
   
 
@@ -86,39 +129,70 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <figure class="highlight python"><table><tr><td class="gutter"><pre>1
+        <p>今天学到了%c比%d读入快的知识。。下面贴两个转化函数。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre>1
 2
-</pre></td><td class="code"><pre><span class="class"><span class="keyword">class</span> <span class="title">SomeClass</span>:</span>
-<span class="keyword">pass</span>
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="code"><pre><span class="keyword">int</span> getint_neg(){
+	<span class="keyword">char</span> c=getchar();<span class="keyword">bool</span> neg=<span class="number">0</span>;
+	<span class="keyword">while</span>(c&lt;<span class="string">'0'</span>||c&gt;<span class="string">'9'</span>){<span class="keyword">if</span>(c==<span class="string">'-'</span>)neg=<span class="number">1</span>;c=getchar();}
+	<span class="keyword">int</span> ret=<span class="number">0</span>;
+	<span class="keyword">while</span>(c&gt;<span class="string">'0'</span>-<span class="number">1</span>&&c&lt;<span class="string">'9'</span>+<span class="number">1</span>){
+		ret=ret*<span class="number">10</span>+(c-<span class="string">'0'</span>);
+		c=getchar();
+	}
+	<span class="keyword">return</span> neg?-ret:ret;
+}
 </pre></td></tr></table></figure>
 
-<figure class="highlight {c++}"><table><tr><td class="gutter"><pre>1
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre>1
 2
-</pre></td><td class="code"><pre><span class="comment">#include &lt;cstdio&gt;</span>
-<span class="keyword">printf</span>(<span class="string">"<span class="variable">%s</span>\n"</span>,<span class="string">"hello world!"</span>);
-</pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre>System.out.println(<span class="string">"hello world"</span>);
+3
+</pre></td><td class="code"><pre>c=getchar();
+<span class="keyword">while</span> (!<span class="built_in">isdigit</span>(c)) c=getchar();  
+<span class="keyword">if</span> (c==<span class="string">'1'</span>) dlx.insert(i,j);
 </pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://summer-meet.github.io/ad53ih6sdu0xxiv3/codestart/" data-id="5fvqyu2yndj9ep1r" class="article-share-link">Share</a>
+      <a data-url="http://summer-meet.github.io/ad53ih6sdu0xxiv3/superinput/" data-id="sx61u52xjcuuf10e" class="article-share-link">Share</a>
       
       
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tips/">tips</a></li></ul>
+
     </footer>
   </div>
   
+    
+<nav id="article-nav">
+  
+    <a href="/ad53ih6sdu0xxiv3/poj3074/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          poj3074 Sudoku
+        
+      </div>
+    </a>
+  
+  
+    <a href="/ad53ih6sdu0xxiv3/poj3740/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">poj3740 Easy Finding</div>
+    </a>
+  
+</nav>
+
+  
 </article>
 
-
-  
-  
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/2014/07/">&laquo; Prev</a><a class="page-number" href="/archives/2014/07/">1</a><span class="page-number current">2</span>
-    </nav>
-  
 </section>
         
           <aside id="sidebar">

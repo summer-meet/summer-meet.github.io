@@ -3,17 +3,17 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Tag: Dancing Links | summer</title>
+  <title>poj3460 Booksort | summer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
+  <meta name="description" content="这道题是刘汝佳黑书P169的例题。A*搜索。她的估价函数设计很有趣。因为剪切是以一些连续段落为一个整体，这启发我们应该设计一个和“相对位置”有关系的h函数，例如h(s)=”后继段落正确的段落数目”。显然假设把连续段落S从P1的后面移动到P2的后面。那么只有3个段落的后继有变化:S的最后一个段落,P1,P2.因此h每次最多减少3.虽然这时候仍不相容，但已经是常数级别。可以把h’=h/3作为估价函数值">
 <meta property="og:type" content="website">
-<meta property="og:title" content="summer">
-<meta property="og:url" content="http://summer-meet.github.io/tags/Dancing-Links/">
+<meta property="og:title" content="poj3460 Booksort">
+<meta property="og:url" content="http://summer-meet.github.io/ad53ih6sdu0xxiv3/poj3460/">
 <meta property="og:site_name" content="summer">
-<meta property="og:description">
+<meta property="og:description" content="这道题是刘汝佳黑书P169的例题。A*搜索。她的估价函数设计很有趣。因为剪切是以一些连续段落为一个整体，这启发我们应该设计一个和“相对位置”有关系的h函数，例如h(s)=”后继段落正确的段落数目”。显然假设把连续段落S从P1的后面移动到P2的后面。那么只有3个段落的后继有变化:S的最后一个段落,P1,P2.因此h每次最多减少3.虽然这时候仍不相容，但已经是常数级别。可以把h’=h/3作为估价函数值">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="summer">
-<meta name="twitter:description">
+<meta name="twitter:title" content="poj3460 Booksort">
+<meta name="twitter:description" content="这道题是刘汝佳黑书P169的例题。A*搜索。她的估价函数设计很有趣。因为剪切是以一些连续段落为一个整体，这启发我们应该设计一个和“相对位置”有关系的h函数，例如h(s)=”后继段落正确的段落数目”。显然假设把连续段落S从P1的后面移动到P2的后面。那么只有3个段落的后继有变化:S的最后一个段落,P1,P2.因此h每次最多减少3.虽然这时候仍不相容，但已经是常数级别。可以把h’=h/3作为估价函数值">
   
     <link rel="alternative" href="/atom.xml" title="summer" type="application/atom+xml">
   
@@ -58,12 +58,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-poj3740" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-poj3460" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/ad53ih6sdu0xxiv3/poj3740/" class="article-date">
-  <time datetime="2014-07-17T11:39:33.000Z" itemprop="datePublished">Jul 17 2014</time>
+    <a href="/ad53ih6sdu0xxiv3/poj3460/" class="article-date">
+  <time datetime="2014-07-15T06:14:24.000Z" itemprop="datePublished">Jul 15 2014</time>
 </a>
     
   <div class="article-category">
@@ -77,8 +75,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/ad53ih6sdu0xxiv3/poj3740/">poj3740 Easy Finding</a>
+    <h1 class="article-title" itemprop="name">
+      poj3460 Booksort
     </h1>
   
 
@@ -86,7 +84,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>没错，这就是传说中的dancing links.<br>论文在这里<a href="https://github.com/summer-meet/vv_test/blob/master/dancing-color.pdf" target="_blank" rel="external">https://github.com/summer-meet/vv_test/blob/master/dancing-color.pdf</a></p>
+        <p>这道题是刘汝佳黑书P169的例题。A*搜索。她的估价函数设计很有趣。<br>因为剪切是以一些连续段落为一个整体，这启发我们应该设计一个和“相对位置”有关系的h函数，例如h(s)=”后继段落正确的段落数目”。显然假设把连续段落S从P1的后面移动到P2的后面。那么只有3个段落的后继有变化:<br>S的最后一个段落,P1,P2.因此h每次最多减少3.虽然这时候仍不相容，但已经是常数级别。可以把h’=h/3作为估价函数值，则每次h最多减少1。但为了方便，可以把f扩大3倍，即f(s)=h(s)+3g(s)，这时候f仍然单调增。</p>
+<p>PS: h(s)函数相容的定义是：h(s)&lt;=h*(s),h(s1)&lt;=h(s2)+c(s1,s2).<br>其中c(s1,s2)指状态S1转移到S2的费用。也就是状态转移时，下界h的减少值最多等于状态转移的实际代价。(h不能减少的太快)</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre>1
 2
 3
@@ -152,194 +151,106 @@
 63
 64
 65
-66
-67
-68
-69
-70
-71
-72
-73
-74
-75
-76
-77
-78
-79
-80
-81
-82
-83
-84
-85
-86
-87
-88
-89
-90
-91
-92
-93
-94
-95
-96
-97
-98
-99
-100
-101
-102
-103
-104
-105
-106
-107
-108
-109
-110
-111
-112
-113
-114
-115
-116
-117
-118
 </pre></td><td class="code"><pre><span class="preprocessor">#include &lt;cstdio&gt;</span>
 <span class="preprocessor">#include &lt;cstring&gt;</span>
 <span class="preprocessor">#include &lt;cmath&gt;</span>
 <span class="preprocessor">#include &lt;iostream&gt;</span>
 <span class="preprocessor">#include &lt;algorithm&gt;</span>
-<span class="preprocessor">#define INF 0x3f3f3f3f</span>
-<span class="preprocessor">#define N 6000</span>
-
+<span class="preprocessor">#define N 20</span>
 <span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
 
-<span class="keyword">struct</span> DLX
+<span class="keyword">int</span> n,ans;
+<span class="keyword">int</span> depth;
+<span class="keyword">int</span> in[N];
+
+<span class="keyword">inline</span> <span class="keyword">int</span> h()
 {
-	<span class="keyword">int</span> head,top;
-	<span class="keyword">int</span> S[N],H[N],O[N];
-	<span class="keyword">int</span> L[N],R[N],U[N],D[N],COL[N],ROW[N];
+	<span class="keyword">int</span> ans=<span class="number">0</span>;
+	<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n-<span class="number">1</span>;i++)
+		<span class="keyword">if</span> (in[i]+<span class="number">1</span>!=in[i+<span class="number">1</span>]) ans++;
+	<span class="keyword">return</span> (ans+<span class="number">2</span>)/<span class="number">3</span>;
+}
 
-	<span class="keyword">void</span> init(<span class="keyword">int</span> m)
-	{
-		head=<span class="number">0</span>; top=<span class="number">0</span>; <span class="built_in">memset</span>(H,<span class="number">0</span>,<span class="keyword">sizeof</span> H);
-		<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=m;i++)
-		{
-			COL[i] = U[i] = D[i] = i;
-			L[i]=i-<span class="number">1</span>; R[i]=i+<span class="number">1</span>;
-			S[i] = <span class="number">0</span>; 
-		}
-		L[<span class="number">0</span>] = m; R[m] = <span class="number">0</span>; 
-		top=m;
-	}
+<span class="keyword">inline</span> <span class="keyword">void</span> _swap(<span class="keyword">int</span> x,<span class="keyword">int</span> y,<span class="keyword">int</span> p,<span class="keyword">int</span> q)
+{
+	<span class="keyword">int</span> t1=(y-x+<span class="number">1</span>)&gt;&gt;<span class="number">1</span>,t2=(q-p+<span class="number">1</span>)&gt;&gt;<span class="number">1</span>,t3=(q-x+<span class="number">1</span>)&gt;&gt;<span class="number">1</span>;
+	<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;t1;i++) swap(in[x+i],in[y-i]);
+	<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;t2;i++) swap(in[p+i],in[q-i]);
+	<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;t3;i++) swap(in[x+i],in[q-i]);
+} 
 
-	<span class="keyword">inline</span> <span class="keyword">void</span> insert(<span class="keyword">int</span> i,<span class="keyword">int</span> j)
-	{
-		top++;
-		<span class="keyword">if</span> (H[i])
-		{
-			L[top] = L[H[i]];
-			R[top] = H[i];
-			L[R[top]] = R[L[top]] = top;
-		}
-		<span class="keyword">else</span> 
-		{
-			L[top] = R[top] = H[i] = top;
-		}
+<span class="keyword">void</span> astar(<span class="keyword">int</span> s,<span class="keyword">int</span> depth)
+{
+	<span class="keyword">int</span> th=h();
+	<span class="keyword">if</span> (th==<span class="number">0</span>) {ans=s; <span class="keyword">return</span>;}
+	<span class="keyword">if</span> (s+th&gt;depth) <span class="keyword">return</span>;
 
-		U[top]=U[j]; D[top]=j;
-		U[D[top]] = D[U[top]] = top;
-		<span class="comment">//L[R[top]] = R[L[top]] = top;</span>
-		ROW[top]=i; COL[top] = j; S[j]++;
-		
-	}
-
-	<span class="keyword">inline</span> <span class="keyword">void</span> remove(<span class="keyword">int</span> c) <span class="comment">//删除第c列上的元素所在的行</span>
-	{
-		L[R[c]]=L[c]; R[L[c]]=R[c]; <span class="comment">//删除c,c是列指针,删除了c就代表删除了整列,因为递归后不可能访问到c了</span>
-		<span class="keyword">for</span> (<span class="keyword">int</span> i=D[c];i!=c;i=D[i]) <span class="comment">//c所在列上的元素i</span>
-			<span class="keyword">for</span> (<span class="keyword">int</span> j=R[i];j!=i;j=R[j]) <span class="comment">//i和j一行的,删掉j</span>
+	<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n-<span class="number">1</span>;i++)
+		<span class="keyword">for</span> (<span class="keyword">int</span> j=i+<span class="number">1</span>;j&lt;n;j++)
+			<span class="keyword">for</span> (<span class="keyword">int</span> k=i;k&lt;j;k++)
 			{
-				U[D[j]]=U[j]; D[U[j]]=D[j];
-				S[COL[j]]--; <span class="comment">//j所在列的元素(‘1’的个数)-1;</span>
+				<span class="keyword">if</span> (ans!=-<span class="number">1</span>) <span class="keyword">return</span>;
+				_swap(i,k,k+<span class="number">1</span>,j);
+				astar(s+<span class="number">1</span>,depth);
+				_swap(i,j-k+i-<span class="number">1</span>,j-k+i,j);
 			}
-	}
+	<span class="keyword">return</span>;
+}
 
-	<span class="keyword">inline</span> <span class="keyword">void</span> resume(<span class="keyword">int</span> c) <span class="comment">//对应的恢复操作</span>
-	{
-		<span class="keyword">for</span> (<span class="keyword">int</span> i=U[c];i!=c;i=U[i])
-			<span class="keyword">for</span> (<span class="keyword">int</span> j=L[i];j!=i;j=L[j])
-			{
-				S[COL[j]]++;
-				U[D[j]]= D[U[j]]= j;
-			}
-		L[R[c]] = R[L[c]] = c;
-	}
 
-	<span class="keyword">bool</span> dfs(<span class="keyword">int</span> k)
-	{
-		<span class="keyword">if</span> (R[head]==head) <span class="keyword">return</span> <span class="number">1</span>; <span class="comment">//列指针删完了,任务完成</span>
-		<span class="keyword">int</span> s = INF, c;
-		<span class="keyword">for</span> (<span class="keyword">int</span> t=R[head];t!=head;t=R[t]) <span class="comment">//找元素最少的列c,一种优化</span>
-		{
-			<span class="keyword">if</span> (S[t]&lt;s) s=S[t],c=t;
-		}
-
-		remove(c);
-		<span class="keyword">for</span> (<span class="keyword">int</span> i=D[c];i!=c;i=D[i])
-		{
-			O[k]=i;
-			<span class="keyword">for</span> (<span class="keyword">int</span> j=R[i];j!=i;j=R[j]) remove(COL[j]); <span class="comment">//删除所有可能的冲突元素</span>
-			<span class="keyword">if</span> (dfs(k+<span class="number">1</span>)) <span class="keyword">return</span> <span class="number">1</span>;
-			<span class="keyword">for</span> (<span class="keyword">int</span> j=L[i];j!=i;j=L[j]) resume(COL[j]);
-		}
-
-		resume(c);
-		<span class="keyword">return</span> <span class="number">0</span>;
-	}
-
-}dlx;
-
-<span class="keyword">int</span> n,m,in;
-<span class="keyword">char</span> c;
 <span class="keyword">int</span> main()
 {
-	<span class="keyword">while</span> (~<span class="built_in">scanf</span>(<span class="string">"%d%d"</span>,&n,&m))
+	<span class="keyword">int</span> T;
+	<span class="built_in">scanf</span>(<span class="string">"%d"</span>,&T);
+	<span class="keyword">while</span> (T--)
 	{
-		dlx.init(m);
-		<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)
-			<span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=m;j++)
-			{
-				<span class="comment">//scanf("%d",&in);</span>
-				<span class="comment">//if (in==1) dlx.insert(i,j);</span>
-				c=getchar();
-				<span class="keyword">while</span> (!<span class="built_in">isdigit</span>(c)) c=getchar();  
-				<span class="keyword">if</span> (c==<span class="string">'1'</span>) dlx.insert(i,j);
-			}
+		<span class="built_in">scanf</span>(<span class="string">"%d"</span>,&n);
+		<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++) <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&in[i]);
 		
-		<span class="keyword">if</span> (dlx.dfs(<span class="number">0</span>)) <span class="built_in">printf</span>(<span class="string">"Yes, I found it\n"</span>);
-		<span class="keyword">else</span> <span class="built_in">printf</span>(<span class="string">"It is impossible\n"</span>);
+		ans=-<span class="number">1</span>;
+		<span class="keyword">for</span> (<span class="keyword">int</span> depth=h();depth&lt;=<span class="number">4</span> && ans==-<span class="number">1</span>;depth++)
+			astar(<span class="number">0</span>,depth);
+
+		<span class="keyword">if</span> (ans==-<span class="number">1</span>) <span class="built_in">printf</span>(<span class="string">"5 or more\n"</span>);
+		<span class="keyword">else</span> <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,ans);
 	}
-	<span class="keyword">return</span> <span class="number">0</span>; 
+	<span class="keyword">return</span> <span class="number">0</span>;
 }
 </pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://summer-meet.github.io/ad53ih6sdu0xxiv3/poj3740/" data-id="nrv8vri6snb944cl" class="article-share-link">Share</a>
+      <a data-url="http://summer-meet.github.io/ad53ih6sdu0xxiv3/poj3460/" data-id="xf1619rouar0z84h" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Dancing-Links/">Dancing Links</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/POJ/">POJ</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/搜索/">搜索</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/POJ/">POJ</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/搜索/">搜索</a></li></ul>
 
     </footer>
   </div>
   
+    
+<nav id="article-nav">
+  
+    <a href="/ad53ih6sdu0xxiv3/poj1324/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          poj1324 Holedox Moving
+        
+      </div>
+    </a>
+  
+  
+    <a href="/ad53ih6sdu0xxiv3/poj2449/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">poj2449 Remmarguts&#39; Date</div>
+    </a>
+  
+</nav>
+
+  
 </article>
 
-
-  
-  
 </section>
         
           <aside id="sidebar">
