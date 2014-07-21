@@ -3,17 +3,98 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Tag: Dancing Links | summer</title>
+  <title>poj1084 Square Destroyer | summer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
+  <meta name="description" content="一道非常抽的构图问题。使用DLX算法解决重复覆盖问题。
+这份代码在实现上与精确覆盖问题的区别主要在于resume和remove函数上，并不向两边扩展。另外的话，因为重复覆盖问题是要求解一个最优解，这与精确覆盖问题不同。因此不可以搜到一个解后立刻退出，而要继续搜索。
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+2">
 <meta property="og:type" content="website">
-<meta property="og:title" content="summer">
-<meta property="og:url" content="http://summer-meet.github.io/tags/Dancing-Links/">
+<meta property="og:title" content="poj1084 Square Destroyer">
+<meta property="og:url" content="http://summer-meet.github.io/lltje6coqjxus1wa/poj1084/">
 <meta property="og:site_name" content="summer">
-<meta property="og:description">
+<meta property="og:description" content="一道非常抽的构图问题。使用DLX算法解决重复覆盖问题。
+这份代码在实现上与精确覆盖问题的区别主要在于resume和remove函数上，并不向两边扩展。另外的话，因为重复覆盖问题是要求解一个最优解，这与精确覆盖问题不同。因此不可以搜到一个解后立刻退出，而要继续搜索。
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+2">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="summer">
-<meta name="twitter:description">
+<meta name="twitter:title" content="poj1084 Square Destroyer">
+<meta name="twitter:description" content="一道非常抽的构图问题。使用DLX算法解决重复覆盖问题。
+这份代码在实现上与精确覆盖问题的区别主要在于resume和remove函数上，并不向两边扩展。另外的话，因为重复覆盖问题是要求解一个最优解，这与精确覆盖问题不同。因此不可以搜到一个解后立刻退出，而要继续搜索。
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+2">
   
     <link rel="alternative" href="/atom.xml" title="summer" type="application/atom+xml">
   
@@ -58,12 +139,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-poj3740" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-poj1084" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/lltje6coqjxus1wa/poj3740/" class="article-date">
-  <time datetime="2014-07-17T11:39:33.000Z" itemprop="datePublished">Jul 17 2014</time>
+    <a href="/lltje6coqjxus1wa/poj1084/" class="article-date">
+  <time datetime="2014-07-21T09:50:56.000Z" itemprop="datePublished">Jul 21 2014</time>
 </a>
     
   <div class="article-category">
@@ -77,8 +156,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/lltje6coqjxus1wa/poj3740/">poj3740 Easy Finding</a>
+    <h1 class="article-title" itemprop="name">
+      poj1084 Square Destroyer
     </h1>
   
 
@@ -86,7 +165,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>没错，这就是传说中的dancing links.<br>论文在这里<a href="https://github.com/summer-meet/vv_test/blob/master/dancing-color.pdf" target="_blank" rel="external">https://github.com/summer-meet/vv_test/blob/master/dancing-color.pdf</a></p>
+        <p>一道非常抽的构图问题。使用DLX算法解决重复覆盖问题。</p>
+<p>这份代码在实现上与精确覆盖问题的区别主要在于resume和remove函数上，并不向两边扩展。另外的话，因为重复覆盖问题是要求解一个最优解，这与精确覆盖问题不同。因此不可以搜到一个解后立刻退出，而要继续搜索。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre>1
 2
 3
@@ -205,15 +285,81 @@
 116
 117
 118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
 </pre></td><td class="code"><pre><span class="preprocessor">#include &lt;cstdio&gt;</span>
 <span class="preprocessor">#include &lt;cstring&gt;</span>
 <span class="preprocessor">#include &lt;cmath&gt;</span>
-<span class="preprocessor">#include &lt;iostream&gt;</span>
 <span class="preprocessor">#include &lt;algorithm&gt;</span>
+<span class="preprocessor">#include &lt;iostream&gt;</span>
 <span class="preprocessor">#define INF 0x3f3f3f3f</span>
-<span class="preprocessor">#define N 6000</span>
 
 <span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
+
+<span class="keyword">const</span> <span class="keyword">int</span> N = <span class="number">6000</span>;
+<span class="keyword">int</span> ans,n,num;
+<span class="keyword">bool</span> mark[<span class="number">80</span>][<span class="number">80</span>];
+<span class="keyword">bool</span> vis[<span class="number">80</span>];
 
 <span class="keyword">struct</span> DLX
 {
@@ -231,12 +377,11 @@
 			S[i] = <span class="number">0</span>; 
 		}
 		L[<span class="number">0</span>] = m; R[m] = <span class="number">0</span>; 
-		top=m;
+		top=m+<span class="number">1</span>;
 	}
 
 	<span class="keyword">inline</span> <span class="keyword">void</span> insert(<span class="keyword">int</span> i,<span class="keyword">int</span> j)
 	{
-		top++;
 		<span class="keyword">if</span> (H[i])
 		{
 			L[top] = L[H[i]];
@@ -250,96 +395,164 @@
 
 		U[top]=U[j]; D[top]=j;
 		U[D[top]] = D[U[top]] = top;
-		<span class="comment">//L[R[top]] = R[L[top]] = top;</span>
 		ROW[top]=i; COL[top] = j; S[j]++;
-		
+		top++;
 	}
 
 	<span class="keyword">inline</span> <span class="keyword">void</span> remove(<span class="keyword">int</span> c) <span class="comment">//删除第c列上的元素所在的行</span>
 	{
-		L[R[c]]=L[c]; R[L[c]]=R[c]; <span class="comment">//删除c,c是列指针,删除了c就代表删除了整列,因为递归后不可能访问到c了</span>
 		<span class="keyword">for</span> (<span class="keyword">int</span> i=D[c];i!=c;i=D[i]) <span class="comment">//c所在列上的元素i</span>
-			<span class="keyword">for</span> (<span class="keyword">int</span> j=R[i];j!=i;j=R[j]) <span class="comment">//i和j一行的,删掉j</span>
-			{
-				U[D[j]]=U[j]; D[U[j]]=D[j];
-				S[COL[j]]--; <span class="comment">//j所在列的元素(‘1’的个数)-1;</span>
-			}
+		{
+			L[R[i]]=L[i]; R[L[i]]=R[i];
+		}
+		S[COL[c]]--; <span class="comment">//j所在列的元素(‘1’的个数)-1;</span>
 	}
 
 	<span class="keyword">inline</span> <span class="keyword">void</span> resume(<span class="keyword">int</span> c) <span class="comment">//对应的恢复操作</span>
 	{
+		S[COL[c]]++;
 		<span class="keyword">for</span> (<span class="keyword">int</span> i=U[c];i!=c;i=U[i])
-			<span class="keyword">for</span> (<span class="keyword">int</span> j=L[i];j!=i;j=L[j])
+		{
+			L[R[i]]= R[L[i]]= i;
+		}
+	}
+
+	<span class="keyword">inline</span> <span class="keyword">void</span> cover(<span class="keyword">int</span> c)
+	{
+		R[L[c]] = R[c], L[R[c]] = L[c];
+		R[c] = L[c] = <span class="number">0</span>;
+	}	
+
+	<span class="keyword">bool</span> hash[N];
+	<span class="keyword">inline</span> <span class="keyword">int</span> h()
+	{
+		<span class="keyword">int</span> ret=<span class="number">0</span>; <span class="built_in">memset</span>(hash,<span class="number">0</span>,<span class="keyword">sizeof</span> hash);
+		<span class="keyword">for</span> (<span class="keyword">int</span> c=R[head];c!=head;c=R[c])
+			<span class="keyword">if</span> (!hash[c])
 			{
-				S[COL[j]]++;
-				U[D[j]]= D[U[j]]= j;
+				ret++; hash[c]=<span class="number">1</span>;
+				<span class="keyword">for</span> (<span class="keyword">int</span> i=D[c];i!=c;i=D[i])
+					<span class="keyword">for</span> (<span class="keyword">int</span> j=R[i];j!=i;j=R[j])
+						hash[COL[j]]=<span class="number">1</span>;
 			}
-		L[R[c]] = R[L[c]] = c;
+		<span class="keyword">return</span> ret;
 	}
 
 	<span class="keyword">bool</span> dfs(<span class="keyword">int</span> k)
 	{
-		<span class="keyword">if</span> (R[head]==head) <span class="keyword">return</span> <span class="number">1</span>; <span class="comment">//列指针删完了,任务完成</span>
+		<span class="keyword">if</span> (R[head]==head) 
+		{	
+			ans = min(ans,k);
+			<span class="keyword">return</span> <span class="number">1</span>; <span class="comment">//列指针删完了,任务完成</span>
+		}
+		<span class="keyword">if</span> (k+h()&gt;=ans) <span class="keyword">return</span> <span class="number">0</span>;
 		<span class="keyword">int</span> s = INF, c;
 		<span class="keyword">for</span> (<span class="keyword">int</span> t=R[head];t!=head;t=R[t]) <span class="comment">//找元素最少的列c,一种优化</span>
 		{
 			<span class="keyword">if</span> (S[t]&lt;s) s=S[t],c=t;
 		}
 
-		remove(c);
 		<span class="keyword">for</span> (<span class="keyword">int</span> i=D[c];i!=c;i=D[i])
 		{
-			O[k]=i;
-			<span class="keyword">for</span> (<span class="keyword">int</span> j=R[i];j!=i;j=R[j]) remove(COL[j]); <span class="comment">//删除所有可能的冲突元素</span>
-			<span class="keyword">if</span> (dfs(k+<span class="number">1</span>)) <span class="keyword">return</span> <span class="number">1</span>;
-			<span class="keyword">for</span> (<span class="keyword">int</span> j=L[i];j!=i;j=L[j]) resume(COL[j]);
+			remove(i);
+			<span class="comment">//O[k]=i;</span>
+			<span class="keyword">for</span> (<span class="keyword">int</span> j=R[i];j!=i;j=R[j]) remove(j); 
+			dfs(k+<span class="number">1</span>);
+			<span class="keyword">for</span> (<span class="keyword">int</span> j=L[i];j!=i;j=L[j]) resume(j);
+			resume(i);
 		}
 
-		resume(c);
 		<span class="keyword">return</span> <span class="number">0</span>;
 	}
 
 }dlx;
 
-<span class="keyword">int</span> n,m,in;
-<span class="keyword">char</span> c;
+<span class="keyword">void</span> pre()
+{
+	<span class="built_in">memset</span>(mark,<span class="number">0</span>,<span class="keyword">sizeof</span> mark); <span class="keyword">int</span> c=<span class="number">1</span>;
+	<span class="keyword">for</span> (<span class="keyword">int</span> si=<span class="number">1</span>;si&lt;=n;si++)
+		<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n-si+<span class="number">1</span>;i++)
+			<span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=n-si+<span class="number">1</span>;j++)
+			{
+				<span class="keyword">for</span> (<span class="keyword">int</span> k=<span class="number">0</span>;k&lt;si;k++)
+				{
+					mark[(i-<span class="number">1</span>)*(<span class="number">2</span>*n+<span class="number">1</span>) + j + k][c]=<span class="number">1</span>;
+					mark[(i-<span class="number">1</span>+si)*(<span class="number">2</span>*n+<span class="number">1</span>) + j + k][c]=<span class="number">1</span>;
+					mark[i*n + (i-<span class="number">1</span>)*(n+<span class="number">1</span>) + j + k*(<span class="number">2</span>*n+<span class="number">1</span>)][c]=<span class="number">1</span>;
+					mark[i*n + (i-<span class="number">1</span>)*(n+<span class="number">1</span>) + j + k*(<span class="number">2</span>*n+<span class="number">1</span>) + si][c]=<span class="number">1</span>;
+				}
+				c++;
+			}
+}
+
+<span class="keyword">void</span> buildmatrix()
+{
+	<span class="keyword">int</span> in,row,col=<span class="number">0</span>;
+
+	<span class="built_in">scanf</span>(<span class="string">"%d"</span>,&n);
+	row=<span class="number">2</span>*n*(n+<span class="number">1</span>);
+	<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)
+		col+=i*i;
+
+	dlx.init(col);
+	pre();
+
+	<span class="built_in">scanf</span>(<span class="string">"%d"</span>,&num);
+	<span class="built_in">memset</span>(vis,<span class="number">0</span>,<span class="keyword">sizeof</span> vis);
+	<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;num;i++)
+	{
+		<span class="built_in">scanf</span>(<span class="string">"%d"</span>,&in);
+		<span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=col;j++)
+			<span class="keyword">if</span> (mark[in][j] && !vis[j])
+			{
+				vis[j]=<span class="number">1</span>;
+				dlx.cover(j);
+			}
+	}
+	<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=row;i++)
+		<span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=col;j++)
+			<span class="keyword">if</span> (mark[i][j] && !vis[j]) dlx.insert(i,j);
+}
+
 <span class="keyword">int</span> main()
 {
-	<span class="keyword">while</span> (~<span class="built_in">scanf</span>(<span class="string">"%d%d"</span>,&n,&m))
+	<span class="keyword">int</span> T;
+	<span class="built_in">scanf</span>(<span class="string">"%d"</span>,&T);
+	<span class="keyword">while</span> (T--)
 	{
-		dlx.init(m);
-		<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)
-			<span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=m;j++)
-			{
-				<span class="comment">//scanf("%d",&in);</span>
-				<span class="comment">//if (in==1) dlx.insert(i,j);</span>
-				c=getchar();
-				<span class="keyword">while</span> (!<span class="built_in">isdigit</span>(c)) c=getchar();  
-				<span class="keyword">if</span> (c==<span class="string">'1'</span>) dlx.insert(i,j);
-			}
-		
-		<span class="keyword">if</span> (dlx.dfs(<span class="number">0</span>)) <span class="built_in">printf</span>(<span class="string">"Yes, I found it\n"</span>);
-		<span class="keyword">else</span> <span class="built_in">printf</span>(<span class="string">"It is impossible\n"</span>);
+		buildmatrix();		
+		ans=INF;
+		dlx.dfs(<span class="number">0</span>);
+		<span class="built_in">printf</span>(<span class="string">"%d\n"</span>,ans);
 	}
-	<span class="keyword">return</span> <span class="number">0</span>; 
+	<span class="keyword">return</span> <span class="number">0</span>;
 }
 </pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://summer-meet.github.io/lltje6coqjxus1wa/poj3740/" data-id="bcnyj7fqrz5aa1c5" class="article-share-link">Share</a>
+      <a data-url="http://summer-meet.github.io/lltje6coqjxus1wa/poj1084/" data-id="3zj33l8ps7nvvjia" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Dancing-Links/">Dancing Links</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/POJ/">POJ</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/搜索/">搜索</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/POJ/">POJ</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/搜索/">搜索</a></li></ul>
 
     </footer>
   </div>
   
+    
+<nav id="article-nav">
+  
+  
+    <a href="/lltje6coqjxus1wa/poj3074/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">poj3074 Sudoku</div>
+    </a>
+  
+</nav>
+
+  
 </article>
 
-
-  
-  
 </section>
         
           <aside id="sidebar">
