@@ -60,9 +60,365 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-hdu4862" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/7qcpokos6c01w0kj/hdu4862/" class="article-date">
+  <time datetime="2014-07-23T12:35:15.000Z" itemprop="datePublished">Jul 23 2014</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/a-thousand-floor/">a-thousand-floor</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/7qcpokos6c01w0kj/hdu4862/">hdu4862 Jump</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>多校的第一天。题意是给一个n*m的矩阵，每个点上有权值，记maze。现在可以至多有出发k次的机会。每次可以从(i,j)向正右方的点跳跃，也可以向正下方的点跳跃。花费为|dx|+|dy|-1,如果两个点上的权值相同，那么可以获得收益S=maze[i][j].</p>
+<p>构图方法是。可以先求权值为负的最小费用流。然后输出的时候取反即可。</p>
+<p>1.超级源ss -&gt; 源s   容量k,费用0</p>
+<p>2.对n*m拆点为X,Y两部</p>
+<p>  源s     -&gt;  X    容量1,费用0</p>
+<p>  Y       -&gt;  汇t  容量1,费用0</p>
+<p>  X       -&gt;  Y    容量1,费用MOD</p>
+<p>3.源s     -&gt;  汇t   容量k，费用0  这条边用于补充剩余的步数。</p>
+<p>这里的MOD是一个恰好的较大数，一般为10^4到10^6之间。目的是既不压到下面影响其他流量，又不会爆int上限。这样一来就可以承担一个大的权重，从来保证每个点都被走到。</p>
+<p>此时有。</p>
+<p>mincost = m*n * MOD + |dx|+|dy|-1 - S</p>
+<p>cost/MOD = m*n + (|dx|+|dy|-1 - S)/MOD<br>         = m*n + 0</p>
+<p>cost%MOD = 0 + (|dx|+|dy|-1 - S)%MOD<br>         = |dx|+|dy|-1 - S</p>
+<p>因此，当cost/MOD = m*n 的时候有解，所获收益为cost%MOD.</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+</pre></td><td class="code"><pre><span class="preprocessor">#include &lt;cstdio&gt;</span>
+<span class="preprocessor">#include &lt;iostream&gt;</span>
+<span class="preprocessor">#include &lt;cstring&gt;</span>
+<span class="preprocessor">#define N 40040</span>
+<span class="preprocessor">#define M 40040</span>
+<span class="preprocessor">#define INF 0x3f3f3f3f</span>
+
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
+
+<span class="keyword">const</span> <span class="keyword">int</span> MOD = <span class="number">500500</span>;
+
+<span class="keyword">struct</span> EDGE{
+    <span class="keyword">int</span> data,cap,cost;
+    EDGE * next, *opp;
+}ES[M], *HEAD[N], *fe[N];
+
+<span class="keyword">int</span> HP;
+<span class="keyword">int</span> <span class="built_in">stack</span>[N],top,dis[N],que[N],ft[N];
+<span class="keyword">int</span> s,t;
+<span class="keyword">int</span> ss,tt;
+<span class="keyword">int</span> delta,maxflow,mincost;
+<span class="keyword">int</span> n,m,k,ui,vi,ci;
+<span class="keyword">bool</span> vis[N];
+
+<span class="keyword">void</span> addedge(<span class="keyword">int</span> u,<span class="keyword">int</span> v,<span class="keyword">int</span> c,<span class="keyword">int</span> cost)
+{
+    ES[++HP].data=v; ES[HP].cap=c; ES[HP].cost=cost; ES[HP].next=HEAD[u]; HEAD[u]=ES+HP;
+    ES[++HP].data=u; ES[HP].cap=<span class="number">0</span>; ES[HP].cost=-cost; ES[HP].next=HEAD[v]; HEAD[v]=ES+HP;
+    ES[HP-<span class="number">1</span>].opp=ES+HP; ES[HP].opp=ES+HP-<span class="number">1</span>;
+}
+
+<span class="keyword">bool</span> spfa()
+{
+    <span class="keyword">int</span> qh,qt,x;
+    <span class="built_in">memset</span>(dis,INF,<span class="keyword">sizeof</span> dis);
+<span class="comment">//    memset(que,0,sizeof que);</span>
+    <span class="built_in">memset</span>(vis,<span class="number">0</span>,<span class="keyword">sizeof</span> vis);
+    qh=<span class="number">0</span>; qt=<span class="number">1</span>; que[<span class="number">1</span>]=s; dis[s]=<span class="number">0</span>; vis[s]=<span class="number">1</span>;
+    <span class="keyword">while</span> (qh!=qt)
+    {
+        qh=(qh % N) +<span class="number">1</span>; x=que[qh]; vis[x]=<span class="number">0</span>;
+        <span class="keyword">for</span> (EDGE * p=HEAD[x];p;p=p-&gt;next)
+        {
+            <span class="keyword">if</span> (p-&gt;cap&gt;<span class="number">0</span> && dis[x]+p-&gt;cost&lt;dis[p-&gt;data])
+            {
+                dis[p-&gt;data]=dis[x]+p-&gt;cost;
+                ft[p-&gt;data]=x;
+                fe[p-&gt;data]=p;
+                <span class="keyword">if</span> (!vis[p-&gt;data])
+                {
+                    vis[p-&gt;data]=<span class="number">1</span>;
+                    qt=(qt % N)+<span class="number">1</span>;
+                    que[qt]=p-&gt;data;
+                }
+            }
+        }
+    }
+    <span class="keyword">return</span> dis[t]&lt;INF;
+}
+
+<span class="keyword">void</span> augment()
+{
+    <span class="keyword">int</span> k;
+    delta=INF; k=t;
+    <span class="keyword">do</span>
+    {
+        <span class="keyword">if</span> (fe[k]-&gt;cap &lt; delta) delta=fe[k]-&gt;cap;
+        k=ft[k];
+    } <span class="keyword">while</span> (k!=s);
+    k=t;
+    <span class="keyword">do</span>
+    {
+        fe[k]-&gt;cap-=delta;
+        fe[k]-&gt;opp-&gt;cap+=delta;
+        mincost+=fe[k]-&gt;cost;
+        k=ft[k];
+    } <span class="keyword">while</span> (k!=s);
+}
+
+<span class="keyword">void</span> costflow()
+{
+    <span class="keyword">while</span> (spfa())
+        augment();
+}
+
+<span class="keyword">int</span> getid(<span class="keyword">int</span> x,<span class="keyword">int</span> y)
+{
+    <span class="keyword">return</span> (x-<span class="number">1</span>)* m + y;
+}
+
+<span class="keyword">int</span> maze[<span class="number">15</span>][<span class="number">15</span>];
+<span class="keyword">char</span> ins[<span class="number">15</span>];
+<span class="keyword">int</span> TT;
+
+<span class="keyword">int</span> main()
+{
+    <span class="keyword">int</span> T; <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&T); TT=T;
+    <span class="keyword">while</span> (T--)
+    {
+        HP=-<span class="number">1</span>; <span class="built_in">memset</span>(HEAD,<span class="number">0</span>,<span class="keyword">sizeof</span> HEAD);
+        <span class="built_in">scanf</span>(<span class="string">"%d%d%d"</span>,&n,&m,&k);
+        <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)
+        {
+            <span class="built_in">scanf</span>(<span class="string">"%s"</span>,ins);
+            <span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=m;j++)
+                maze[i][j]=ins[j-<span class="number">1</span>]-<span class="string">'0'</span>;
+        }
+
+        s=<span class="number">0</span>; t=n*m*<span class="number">2</span>+<span class="number">1</span>; 
+        ss=n*m*<span class="number">2</span>+<span class="number">2</span>; addedge(s,ss,k,<span class="number">0</span>); 
+        <span class="comment">//tt=n*m*2+3; addedge(t,tt,k,0);</span>
+        <span class="comment">//addedge(s,ss,k,0);</span>
+        addedge(ss,t,k,<span class="number">0</span>);
+
+        <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)
+            <span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=m;j++)
+            {
+                <span class="keyword">int</span> p = getid(i,j);
+                addedge(ss,p,<span class="number">1</span>,<span class="number">0</span>);
+                addedge(p,p+n*m,<span class="number">1</span>,-MOD);
+                addedge(p+n*m,t,<span class="number">1</span>,<span class="number">0</span>);
+            }
+        <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)
+            <span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=m;j++)
+            {   
+                <span class="keyword">for</span> (<span class="keyword">int</span> toi=<span class="number">1</span>;i+toi&lt;=n;toi++)
+                {
+                    <span class="keyword">int</span> p = getid(i,j), top = getid(i+toi,j);
+                    <span class="keyword">if</span> (maze[i][j]==maze[i+toi][j]) addedge(p+n*m,top,<span class="number">1</span>,toi-<span class="number">1</span>-maze[i][j]);
+                    <span class="keyword">else</span> addedge(p+n*m,top,<span class="number">1</span>,toi-<span class="number">1</span>);
+                }
+
+                <span class="keyword">for</span> (<span class="keyword">int</span> toj=<span class="number">1</span>;j+toj&lt;=m;toj++)
+                {
+                    <span class="keyword">int</span> p = getid(i,j), top = getid(i,j+toj);
+                    <span class="keyword">if</span> (maze[i][j]==maze[i][j+toj]) addedge(p+n*m,top,<span class="number">1</span>,toj-<span class="number">1</span>-maze[i][j]);
+                    <span class="keyword">else</span> addedge(p+n*m,top,<span class="number">1</span>,toj-<span class="number">1</span>);
+                }
+            
+            }
+
+        maxflow=<span class="number">0</span>,mincost=<span class="number">0</span>;
+        costflow();
+        <span class="built_in">printf</span>(<span class="string">"Case %d : "</span>,TT-T);
+        <span class="keyword">if</span> (-mincost/MOD!=m*n) <span class="built_in">printf</span>(<span class="string">"-1\n"</span>);
+        <span class="keyword">else</span> <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,-mincost%MOD);
+    }
+
+    <span class="keyword">return</span> <span class="number">0</span>;
+}
+</pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://summer-meet.github.io/7qcpokos6c01w0kj/hdu4862/" data-id="pspnwrrab1p7mwfp" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hdu/">hdu</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/最小路径覆盖/">最小路径覆盖</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络流/">网络流</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-poj1084" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/lltje6coqjxus1wa/poj1084/" class="article-date">
+    <a href="/7qcpokos6c01w0kj/poj1084/" class="article-date">
   <time datetime="2014-07-21T09:50:56.000Z" itemprop="datePublished">Jul 21 2014</time>
 </a>
     
@@ -78,7 +434,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/lltje6coqjxus1wa/poj1084/">poj1084 Square Destroyer</a>
+      <a class="article-title" href="/7qcpokos6c01w0kj/poj1084/">poj1084 Square Destroyer</a>
     </h1>
   
 
@@ -452,7 +808,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://summer-meet.github.io/lltje6coqjxus1wa/poj1084/" data-id="3zj33l8ps7nvvjia" class="article-share-link">Share</a>
+      <a data-url="http://summer-meet.github.io/7qcpokos6c01w0kj/poj1084/" data-id="snr7n7h9jw7cwewr" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/POJ/">POJ</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/搜索/">搜索</a></li></ul>
@@ -466,7 +822,7 @@
   
     <article id="post-poj3074" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/lltje6coqjxus1wa/poj3074/" class="article-date">
+    <a href="/7qcpokos6c01w0kj/poj3074/" class="article-date">
   <time datetime="2014-07-20T03:03:47.000Z" itemprop="datePublished">Jul 20 2014</time>
 </a>
     
@@ -482,7 +838,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/lltje6coqjxus1wa/poj3074/">poj3074 Sudoku</a>
+      <a class="article-title" href="/7qcpokos6c01w0kj/poj3074/">poj3074 Sudoku</a>
     </h1>
   
 
@@ -806,7 +1162,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://summer-meet.github.io/lltje6coqjxus1wa/poj3074/" data-id="yevi791aj628lgp6" class="article-share-link">Share</a>
+      <a data-url="http://summer-meet.github.io/7qcpokos6c01w0kj/poj3074/" data-id="v9lsxehh4e0gtwr2" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DLX/">DLX</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数独/">数独</a></li></ul>
@@ -820,7 +1176,7 @@
   
     <article id="post-superinput" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/lltje6coqjxus1wa/superinput/" class="article-date">
+    <a href="/7qcpokos6c01w0kj/superinput/" class="article-date">
   <time datetime="2014-07-17T11:55:18.000Z" itemprop="datePublished">Jul 17 2014</time>
 </a>
     
@@ -836,7 +1192,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/lltje6coqjxus1wa/superinput/">一个输入“外挂”</a>
+      <a class="article-title" href="/7qcpokos6c01w0kj/superinput/">一个输入“外挂”</a>
     </h1>
   
 
@@ -844,7 +1200,31 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>今天学到了%c比%d读入快的知识。。下面贴两个转化函数。</p>
+        <p>今天学到了%c比%d读入快的知识。。下面贴三个转化函数。</p>
+<p>第一个是只处理正整数的。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="code"><pre><span class="keyword">inline</span> <span class="keyword">int</span> getint()
+{
+    <span class="keyword">int</span> ret=<span class="number">0</span>,c;
+    <span class="keyword">while</span>(c=getchar(),c&lt;<span class="string">'0'</span>||c&gt;<span class="string">'9'</span>);
+    <span class="keyword">while</span>(c&gt;=<span class="string">'0'</span>&&c&lt;=<span class="string">'9'</span>){
+        ret=ret*<span class="number">10</span>+c-<span class="string">'0'</span>;
+        c=getchar();
+    }
+    <span class="keyword">return</span> ret;
+}
+</pre></td></tr></table></figure>
+
+<p>第二个是可以有正负整数的。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre>1
 2
 3
@@ -867,6 +1247,7 @@
 }
 </pre></td></tr></table></figure>
 
+<p>第三个是只有一位数字的简化版本。<em>**</em></p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre>1
 2
 3
@@ -877,7 +1258,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://summer-meet.github.io/lltje6coqjxus1wa/superinput/" data-id="1nygitwoc0xdyyeg" class="article-share-link">Share</a>
+      <a data-url="http://summer-meet.github.io/7qcpokos6c01w0kj/superinput/" data-id="z6yto7wek21pypuo" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tips/">tips</a></li></ul>
@@ -891,7 +1272,7 @@
   
     <article id="post-poj3740" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/lltje6coqjxus1wa/poj3740/" class="article-date">
+    <a href="/7qcpokos6c01w0kj/poj3740/" class="article-date">
   <time datetime="2014-07-17T11:39:33.000Z" itemprop="datePublished">Jul 17 2014</time>
 </a>
     
@@ -907,7 +1288,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/lltje6coqjxus1wa/poj3740/">poj3740 Easy Finding</a>
+      <a class="article-title" href="/7qcpokos6c01w0kj/poj3740/">poj3740 Easy Finding</a>
     </h1>
   
 
@@ -1156,7 +1537,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://summer-meet.github.io/lltje6coqjxus1wa/poj3740/" data-id="bcnyj7fqrz5aa1c5" class="article-share-link">Share</a>
+      <a data-url="http://summer-meet.github.io/7qcpokos6c01w0kj/poj3740/" data-id="xe99nwhmwsu1uip1" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Dancing-Links/">Dancing Links</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/POJ/">POJ</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/搜索/">搜索</a></li></ul>
@@ -1170,7 +1551,7 @@
   
     <article id="post-poj1324" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/lltje6coqjxus1wa/poj1324/" class="article-date">
+    <a href="/7qcpokos6c01w0kj/poj1324/" class="article-date">
   <time datetime="2014-07-15T10:51:06.000Z" itemprop="datePublished">Jul 15 2014</time>
 </a>
     
@@ -1186,7 +1567,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/lltje6coqjxus1wa/poj1324/">poj1324 Holedox Moving</a>
+      <a class="article-title" href="/7qcpokos6c01w0kj/poj1324/">poj1324 Holedox Moving</a>
     </h1>
   
 
@@ -1426,7 +1807,7 @@ STATUS q[<span class="number">500000</span>];
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://summer-meet.github.io/lltje6coqjxus1wa/poj1324/" data-id="9qkse6piwcf541hb" class="article-share-link">Share</a>
+      <a data-url="http://summer-meet.github.io/7qcpokos6c01w0kj/poj1324/" data-id="hgjmo22xdzb0o2zh" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/POJ/">POJ</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/搜索/">搜索</a></li></ul>
@@ -1440,7 +1821,7 @@ STATUS q[<span class="number">500000</span>];
   
     <article id="post-poj3460" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/lltje6coqjxus1wa/poj3460/" class="article-date">
+    <a href="/7qcpokos6c01w0kj/poj3460/" class="article-date">
   <time datetime="2014-07-15T06:14:24.000Z" itemprop="datePublished">Jul 15 2014</time>
 </a>
     
@@ -1456,7 +1837,7 @@ STATUS q[<span class="number">500000</span>];
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/lltje6coqjxus1wa/poj3460/">poj3460 Booksort</a>
+      <a class="article-title" href="/7qcpokos6c01w0kj/poj3460/">poj3460 Booksort</a>
     </h1>
   
 
@@ -1600,7 +1981,7 @@ STATUS q[<span class="number">500000</span>];
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://summer-meet.github.io/lltje6coqjxus1wa/poj3460/" data-id="1rzlpodku2szr0kt" class="article-share-link">Share</a>
+      <a data-url="http://summer-meet.github.io/7qcpokos6c01w0kj/poj3460/" data-id="mdfn0libpnmlqpz6" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/POJ/">POJ</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/搜索/">搜索</a></li></ul>
@@ -1614,7 +1995,7 @@ STATUS q[<span class="number">500000</span>];
   
     <article id="post-poj2449" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/lltje6coqjxus1wa/poj2449/" class="article-date">
+    <a href="/7qcpokos6c01w0kj/poj2449/" class="article-date">
   <time datetime="2014-07-15T03:02:44.000Z" itemprop="datePublished">Jul 15 2014</time>
 </a>
     
@@ -1630,7 +2011,7 @@ STATUS q[<span class="number">500000</span>];
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/lltje6coqjxus1wa/poj2449/">poj2449 Remmarguts&#39; Date</a>
+      <a class="article-title" href="/7qcpokos6c01w0kj/poj2449/">poj2449 Remmarguts&#39; Date</a>
     </h1>
   
 
@@ -1866,7 +2247,7 @@ priority_queue&lt;STATUS&gt; q;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://summer-meet.github.io/lltje6coqjxus1wa/poj2449/" data-id="mgaej281k0ex6jgq" class="article-share-link">Share</a>
+      <a data-url="http://summer-meet.github.io/7qcpokos6c01w0kj/poj2449/" data-id="wycmzfmi01yz7zfc" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/POJ/">POJ</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/搜索/">搜索</a></li></ul>
@@ -1880,7 +2261,7 @@ priority_queue&lt;STATUS&gt; q;
   
     <article id="post-poj3732" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/lltje6coqjxus1wa/poj3732/" class="article-date">
+    <a href="/7qcpokos6c01w0kj/poj3732/" class="article-date">
   <time datetime="2014-07-14T13:37:41.000Z" itemprop="datePublished">Jul 14 2014</time>
 </a>
     
@@ -1896,7 +2277,7 @@ priority_queue&lt;STATUS&gt; q;
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/lltje6coqjxus1wa/poj3732/">poj3732 Paint Me Less</a>
+      <a class="article-title" href="/7qcpokos6c01w0kj/poj3732/">poj3732 Paint Me Less</a>
     </h1>
   
 
@@ -2159,7 +2540,7 @@ priority_queue&lt;STATUS&gt; q;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://summer-meet.github.io/lltje6coqjxus1wa/poj3732/" data-id="m4na37zz4ch11b14" class="article-share-link">Share</a>
+      <a data-url="http://summer-meet.github.io/7qcpokos6c01w0kj/poj3732/" data-id="fzo0tf6d31meup11" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/poj/">poj</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/zip/">zip</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/搜索/">搜索</a></li></ul>
@@ -2173,7 +2554,7 @@ priority_queue&lt;STATUS&gt; q;
   
     <article id="post-boj1584" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/lltje6coqjxus1wa/boj1584/" class="article-date">
+    <a href="/7qcpokos6c01w0kj/boj1584/" class="article-date">
   <time datetime="2014-07-12T13:16:36.000Z" itemprop="datePublished">Jul 12 2014</time>
 </a>
     
@@ -2189,7 +2570,7 @@ priority_queue&lt;STATUS&gt; q;
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/lltje6coqjxus1wa/boj1584/">boj1584 Freeway</a>
+      <a class="article-title" href="/7qcpokos6c01w0kj/boj1584/">boj1584 Freeway</a>
     </h1>
   
 
@@ -2488,493 +2869,10 @@ priority_queue&lt;STATUS&gt; q;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://summer-meet.github.io/lltje6coqjxus1wa/boj1584/" data-id="w9l90wkqep4vu4cr" class="article-share-link">Share</a>
+      <a data-url="http://summer-meet.github.io/7qcpokos6c01w0kj/boj1584/" data-id="7m0g620vz4rtjnsi" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/BOJ/">BOJ</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DP/">DP</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-poj1077" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/lltje6coqjxus1wa/poj1077/" class="article-date">
-  <time datetime="2014-07-12T12:21:24.000Z" itemprop="datePublished">Jul 12 2014</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/a-thousand-floor/">a-thousand-floor</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/lltje6coqjxus1wa/poj1077/">poj1077 Eight</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>八数码问题。首先用康拖展开hash,然后双向广搜0MS搞定！<br>康拖展开：<br>X=a_n <em> (n-1)!+a_n-1 </em> (n-2)! + … + a_i <em>(i-1)!+ … + a2 </em> 1! + a1 * 0!<br>其中，a为整数，并且0&lt;=ai&lt;i(1&lt;=i&lt;=n)</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69
-70
-71
-72
-73
-74
-75
-76
-77
-78
-79
-80
-81
-82
-83
-84
-85
-86
-87
-88
-89
-90
-91
-92
-93
-94
-95
-96
-97
-98
-99
-100
-101
-102
-103
-104
-105
-106
-107
-108
-109
-110
-111
-112
-113
-114
-115
-116
-117
-118
-119
-120
-121
-122
-123
-124
-125
-126
-127
-128
-129
-130
-131
-132
-133
-134
-135
-136
-137
-138
-139
-140
-141
-142
-143
-144
-145
-146
-147
-148
-149
-150
-151
-152
-153
-154
-155
-156
-157
-158
-159
-160
-161
-162
-163
-164
-165
-166
-167
-168
-169
-170
-171
-172
-173
-174
-175
-176
-177
-178
-179
-180
-181
-182
-183
-184
-185
-186
-187
-188
-189
-190
-191
-192
-193
-194
-195
-196
-197
-198
-199
-200
-201
-202
-203
-204
-205
-206
-207
-208
-209
-210
-211
-212
-213
-214
-215
-216
-217
-218
-219
-220
-</pre></td><td class="code"><pre><span class="preprocessor">#pragma comment(linker,"/STACK:36777216")</span>
-<span class="preprocessor">#include &lt;cstdio&gt;</span>
-<span class="preprocessor">#include &lt;cstring&gt;</span>
-<span class="preprocessor">#include &lt;cmath&gt;</span>
-<span class="preprocessor">#include &lt;queue&gt;</span>
-<span class="preprocessor">#include &lt;algorithm&gt;</span>
-<span class="preprocessor">#include &lt;iostream&gt;</span>
-<span class="preprocessor">#define N 10</span>
-<span class="preprocessor">#define M 365000</span>
-<span class="preprocessor">#define INF 0x3f3f3f3f</span>
-
-<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
-
-<span class="keyword">const</span> <span class="keyword">int</span> fac[]={<span class="number">1</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">6</span>,<span class="number">24</span>,<span class="number">120</span>,<span class="number">720</span>,<span class="number">5040</span>,<span class="number">40320</span>,<span class="number">362880</span>}; <span class="comment">//阶乘</span>
-<span class="keyword">const</span> <span class="keyword">int</span> dir[<span class="number">4</span>][<span class="number">2</span>]={ {-<span class="number">1</span>,<span class="number">0</span>}, {<span class="number">1</span>,<span class="number">0</span>}, {<span class="number">0</span>,-<span class="number">1</span>}, {<span class="number">0</span>,<span class="number">1</span>} };
-
-<span class="keyword">struct</span> STATUS
-{
-	<span class="keyword">char</span> eight[N];
-	<span class="keyword">int</span> space,state; <span class="comment">// x位置；hash值，用于状态和判重</span>
-};
-
-STATUS s,s1,s2,t;
-<span class="stl_container"><span class="built_in">queue</span> &lt;STATUS&gt;</span> q1,q2;
-
-<span class="keyword">int</span> light,nowstate; <span class="comment">//light搜索成功标记，nowstate相交位置标记</span>
-
-<span class="keyword">char</span> vis[M];
-<span class="keyword">int</span> pre1[M],pre2[M]; <span class="comment">//保存正反向搜索当前状态的父亲状态结点</span>
-<span class="keyword">int</span> cnt1[M],cnt2[M]; <span class="comment">//正反向搜索的方向保存</span>
-
-<span class="keyword">int</span> gethash(<span class="keyword">char</span> eight[]) <span class="comment">//康拖展开</span>
-{
-	<span class="keyword">int</span> ans=<span class="number">0</span>;
-	<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">9</span>;i++)
-	{
-		<span class="keyword">int</span> temp=<span class="number">0</span>;
-		<span class="keyword">for</span> (<span class="keyword">int</span> j=i+<span class="number">1</span>;j&lt;<span class="number">9</span>;j++)
-		{
-			<span class="keyword">if</span> (eight[j]&lt;eight[i]) temp++;
-		}
-		ans+=(temp*fac[<span class="number">9</span>-i-<span class="number">1</span>]);
-	}
-	<span class="keyword">return</span> ans;
-}
-
-<span class="keyword">int</span> ReverseOrder(<span class="keyword">char</span> eight[])
-{
-	<span class="keyword">int</span> num=<span class="number">0</span>;
-	<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">9</span>;i++)
-		<span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;i;j++)
-		{
-			<span class="keyword">if</span> (<span class="keyword">int</span>(eight[i])==<span class="number">9</span>) <span class="keyword">break</span>;
-			<span class="keyword">if</span> (<span class="keyword">int</span>(eight[j])==<span class="number">9</span>) <span class="keyword">continue</span>;
-			<span class="keyword">if</span> (<span class="keyword">int</span>(eight[j])&gt;<span class="keyword">int</span>(eight[i])) num++;
-		}
-	num=num%<span class="number">2</span>;
-	<span class="keyword">return</span> num;
-}
-
-<span class="keyword">void</span> bfs(<span class="stl_container"><span class="built_in">queue</span>&lt;STATUS&gt;</span> &q, <span class="keyword">bool</span> flag) <span class="comment">//单向广搜，flag为1正搜0反搜</span>
-{
-	<span class="keyword">int</span> k,x,y;
-	s=q.front(); k=s.space; x=k/<span class="number">3</span>,y=k%<span class="number">3</span>;
-	q.pop();
-
-	<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">4</span>;i++)
-	{
-		<span class="keyword">int</span> tox = x+dir[i][<span class="number">0</span>], toy = y+dir[i][<span class="number">1</span>];
-		<span class="keyword">if</span> (<span class="number">0</span>&lt;=tox && tox&lt;=<span class="number">2</span> && <span class="number">0</span>&lt;=toy && toy&lt;=<span class="number">2</span>)
-		{
-			t=s; t.space=tox*<span class="number">3</span> + toy;
-			swap(t.eight[k],t.eight[t.space]);
-			t.state=gethash(t.eight);
-
-			<span class="keyword">if</span> (flag)
-			{
-				<span class="keyword">if</span> (vis[t.state]!=<span class="number">1</span> && ReverseOrder(t.eight)==<span class="number">0</span>)
-				{
-					pre1[t.state]=s.state; cnt1[t.state]=i;
-					<span class="keyword">if</span> (vis[t.state]==<span class="number">2</span>)
-					{
-						light=<span class="number">1</span>;
-						nowstate=t.state;
-						<span class="keyword">return</span>;
-					}
-					vis[t.state]=<span class="number">1</span>;
-					q.push(t);
-				}
-			}
-			<span class="keyword">else</span>
-			{
-				<span class="keyword">if</span> (vis[t.state]!=<span class="number">2</span> && ReverseOrder(t.eight)==<span class="number">0</span>)
-				{
-					pre2[t.state]=s.state; cnt2[t.state]=i;
-					<span class="keyword">if</span> (vis[t.state]==<span class="number">1</span>)
-					{
-						light=<span class="number">1</span>;
-						nowstate=t.state;
-						<span class="keyword">return</span>;
-					}
-					vis[t.state]=<span class="number">2</span>;
-					q.push(t);
-				}
-			}
-		}
-	}
-}
-
-<span class="keyword">void</span> DBFS()
-{
-	<span class="built_in">memset</span>(vis,<span class="number">0</span>,<span class="keyword">sizeof</span> vis);
-	<span class="keyword">while</span> (!q1.empty()) q1.pop();
-	<span class="keyword">while</span> (!q2.empty()) q2.pop();
-	vis[s1.state]=<span class="number">1</span>; pre1[s1.state]=-<span class="number">1</span>;
-	vis[s2.state]=<span class="number">2</span>; pre2[s2.state]=-<span class="number">1</span>;
-	q1.push(s1); q2.push(s2);
-
-	<span class="keyword">while</span> (!q1.empty() || !q2.empty())
-	{
-		<span class="keyword">if</span> (!q1.empty()) bfs(q1,<span class="keyword">true</span>);
-		<span class="keyword">if</span> (light) <span class="keyword">return</span>;
-		<span class="keyword">if</span> (!q2.empty()) bfs(q2,<span class="keyword">false</span>);
-		<span class="keyword">if</span> (light) <span class="keyword">return</span>;
-	}
-}
-
-<span class="keyword">char</span> path[<span class="number">1000</span>];
-
-<span class="keyword">void</span> print1(<span class="keyword">int</span> top)
-{
-	<span class="keyword">for</span> (<span class="keyword">int</span> i=top-<span class="number">1</span>;i&gt;=<span class="number">0</span>;i--)
-	{
-		<span class="keyword">if</span> (path[i]==<span class="number">0</span>) <span class="built_in">printf</span>(<span class="string">"u"</span>);
-		<span class="keyword">else</span> <span class="keyword">if</span> (path[i]==<span class="number">1</span>) <span class="built_in">printf</span>(<span class="string">"d"</span>);
-		<span class="keyword">else</span> <span class="keyword">if</span> (path[i]==<span class="number">2</span>) <span class="built_in">printf</span>(<span class="string">"l"</span>);
-		<span class="keyword">else</span> <span class="keyword">if</span> (path[i]==<span class="number">3</span>) <span class="built_in">printf</span>(<span class="string">"r"</span>);
-	}
-}
-
-<span class="keyword">void</span> print2(<span class="keyword">int</span> top)
-{
-	<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;top;i++)
-	{
-		<span class="keyword">if</span> (path[i]==<span class="number">0</span>) <span class="built_in">printf</span>(<span class="string">"d"</span>);
-		<span class="keyword">else</span> <span class="keyword">if</span> (path[i]==<span class="number">1</span>) <span class="built_in">printf</span>(<span class="string">"u"</span>);
-		<span class="keyword">else</span> <span class="keyword">if</span> (path[i]==<span class="number">2</span>) <span class="built_in">printf</span>(<span class="string">"r"</span>);
-		<span class="keyword">else</span> <span class="keyword">if</span> (path[i]==<span class="number">3</span>) <span class="built_in">printf</span>(<span class="string">"l"</span>);
-	}
-	<span class="built_in">printf</span>(<span class="string">"\n"</span>);
-}
-
-<span class="keyword">void</span> Printpath(<span class="keyword">int</span> pre[],<span class="keyword">int</span> cnt[],<span class="keyword">int</span> flag)
-{
-	<span class="keyword">int</span> u,top=<span class="number">1</span>;
-
-	u=pre[nowstate];
-	path[<span class="number">0</span>]=cnt[nowstate];
-	
-	<span class="keyword">while</span> (pre[u]!=-<span class="number">1</span>)
-	{
-		path[top++]=cnt[u];
-		u=pre[u];
-	}
-	
-	<span class="keyword">if</span> (flag==<span class="number">1</span>) print1(top);
-	<span class="keyword">else</span> print2(top);
-}
-
-<span class="keyword">void</span> init(<span class="keyword">char</span> c)
-{
-	<span class="keyword">if</span> (c==<span class="string">'x'</span>)
-	{
-		s1.eight[<span class="number">0</span>]=<span class="number">9</span>;
-		s1.space=<span class="number">0</span>;
-	}
-	<span class="keyword">else</span> s1.eight[<span class="number">0</span>]=c-<span class="string">'0'</span>;
-
-	<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;<span class="number">9</span>;i++)
-	{
-		<span class="built_in">scanf</span>(<span class="string">" %c"</span>,&c);
-		<span class="keyword">if</span> (c==<span class="string">'x'</span>)
-		{
-			s1.eight[i]=<span class="number">9</span>;
-			s1.space=i;
-		}
-		<span class="keyword">else</span> s1.eight[i]=c-<span class="string">'0'</span>;
-	}
-	
-	s1.state=gethash(s1.eight);
-
-	<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">9</span>;i++) s2.eight[i]=i+<span class="number">1</span>;
-	s2.space=<span class="number">8</span>;
-	s2.state=gethash(s2.eight);
-}
-
-<span class="keyword">int</span> main()
-{
-	<span class="keyword">char</span> c;
-	<span class="keyword">while</span> (~<span class="built_in">scanf</span>(<span class="string">" %c"</span>,&c))
-	{
-		init(c);
-
-		<span class="keyword">if</span> (ReverseOrder(s1.eight))
-		{
-			<span class="built_in">printf</span>(<span class="string">"unsolvable\n"</span>);
-			<span class="keyword">continue</span>;
-		}
-
-		light=<span class="number">0</span>;
-		DBFS();
-		<span class="keyword">if</span> (light)
-		{
-			Printpath(pre1,cnt1,<span class="number">1</span>);
-			Printpath(pre2,cnt2,<span class="number">2</span>);
-		}
-		<span class="keyword">else</span> <span class="built_in">printf</span>(<span class="string">"unsolvable\n"</span>);
-	}
-	<span class="keyword">return</span> <span class="number">0</span>;
-}
-</pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://summer-meet.github.io/lltje6coqjxus1wa/poj1077/" data-id="amakitfpbtdmixdf" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Cantor_Expansion/">Cantor_Expansion</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DBFS/">DBFS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/POJ/">POJ</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/搜索/">搜索</a></li></ul>
 
     </footer>
   </div>
@@ -2996,7 +2894,7 @@ STATUS s,s1,s2,t;
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/a-thousand-floor/">a-thousand-floor</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/black-sheep-wall/">black-sheep-wall</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/something-for-nothing/">something-for-nothing</a><span class="category-list-count">2</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/a-thousand-floor/">a-thousand-floor</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/black-sheep-wall/">black-sheep-wall</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/something-for-nothing/">something-for-nothing</a><span class="category-list-count">2</span></li></ul>
     </div>
   </div>
 
@@ -3005,7 +2903,7 @@ STATUS s,s1,s2,t;
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/BOJ/">BOJ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cantor_Expansion/">Cantor_Expansion</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DBFS/">DBFS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DLX/">DLX</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DP/">DP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dancing-Links/">Dancing Links</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/POJ/">POJ</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/poj/">poj</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tips/">tips</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zip/">zip</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/搜索/">搜索</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数独/">数独</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/BOJ/">BOJ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cantor_Expansion/">Cantor_Expansion</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DBFS/">DBFS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DLX/">DLX</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DP/">DP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dancing-Links/">Dancing Links</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/POJ/">POJ</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hdu/">hdu</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/poj/">poj</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tips/">tips</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zip/">zip</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/搜索/">搜索</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数独/">数独</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/最小路径覆盖/">最小路径覆盖</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/网络流/">网络流</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -3014,7 +2912,7 @@ STATUS s,s1,s2,t;
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/BOJ/" style="font-size: 10.00px;">BOJ</a><a href="/tags/Cantor_Expansion/" style="font-size: 10.00px;">Cantor_Expansion</a><a href="/tags/DBFS/" style="font-size: 10.00px;">DBFS</a><a href="/tags/DLX/" style="font-size: 10.00px;">DLX</a><a href="/tags/DP/" style="font-size: 10.00px;">DP</a><a href="/tags/Dancing-Links/" style="font-size: 10.00px;">Dancing Links</a><a href="/tags/POJ/" style="font-size: 15.00px;">POJ</a><a href="/tags/poj/" style="font-size: 10.00px;">poj</a><a href="/tags/tips/" style="font-size: 10.00px;">tips</a><a href="/tags/zip/" style="font-size: 10.00px;">zip</a><a href="/tags/搜索/" style="font-size: 20.00px;">搜索</a><a href="/tags/数独/" style="font-size: 10.00px;">数独</a>
+      <a href="/tags/BOJ/" style="font-size: 10.00px;">BOJ</a><a href="/tags/Cantor_Expansion/" style="font-size: 10.00px;">Cantor_Expansion</a><a href="/tags/DBFS/" style="font-size: 10.00px;">DBFS</a><a href="/tags/DLX/" style="font-size: 10.00px;">DLX</a><a href="/tags/DP/" style="font-size: 10.00px;">DP</a><a href="/tags/Dancing-Links/" style="font-size: 10.00px;">Dancing Links</a><a href="/tags/POJ/" style="font-size: 15.00px;">POJ</a><a href="/tags/hdu/" style="font-size: 10.00px;">hdu</a><a href="/tags/poj/" style="font-size: 10.00px;">poj</a><a href="/tags/tips/" style="font-size: 10.00px;">tips</a><a href="/tags/zip/" style="font-size: 10.00px;">zip</a><a href="/tags/搜索/" style="font-size: 20.00px;">搜索</a><a href="/tags/数独/" style="font-size: 10.00px;">数独</a><a href="/tags/最小路径覆盖/" style="font-size: 10.00px;">最小路径覆盖</a><a href="/tags/网络流/" style="font-size: 10.00px;">网络流</a>
     </div>
   </div>
 
@@ -3023,7 +2921,7 @@ STATUS s,s1,s2,t;
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07">July 2014</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06">June 2014</a><span class="archive-list-count">6</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07">July 2014</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06">June 2014</a><span class="archive-list-count">6</span></li></ul>
     </div>
   </div>
 
@@ -3035,23 +2933,23 @@ STATUS s,s1,s2,t;
       <ul>
         
           <li>
-            <a href="/lltje6coqjxus1wa/poj1084/">poj1084 Square Destroyer</a>
+            <a href="/7qcpokos6c01w0kj/hdu4862/">hdu4862 Jump</a>
           </li>
         
           <li>
-            <a href="/lltje6coqjxus1wa/poj3074/">poj3074 Sudoku</a>
+            <a href="/7qcpokos6c01w0kj/poj1084/">poj1084 Square Destroyer</a>
           </li>
         
           <li>
-            <a href="/lltje6coqjxus1wa/superinput/">一个输入“外挂”</a>
+            <a href="/7qcpokos6c01w0kj/poj3074/">poj3074 Sudoku</a>
           </li>
         
           <li>
-            <a href="/lltje6coqjxus1wa/poj3740/">poj3740 Easy Finding</a>
+            <a href="/7qcpokos6c01w0kj/superinput/">一个输入“外挂”</a>
           </li>
         
           <li>
-            <a href="/lltje6coqjxus1wa/poj1324/">poj1324 Holedox Moving</a>
+            <a href="/7qcpokos6c01w0kj/poj3740/">poj3740 Easy Finding</a>
           </li>
         
       </ul>
