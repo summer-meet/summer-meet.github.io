@@ -60,9 +60,379 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-hdu4863" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/3uyro5odi5st474e/hdu4863/" class="article-date">
+  <time datetime="2014-07-26T07:36:30.000Z" itemprop="datePublished">Jul 26 2014</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/a-thousand-floor/">a-thousand-floor</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/3uyro5odi5st474e/hdu4863/">hdu4863 Centroid of a Tree</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>题意和分析的话看到这里，做得很不错。<a href="http://www.kuangbin.net/archives/hdu4863" target="_blank" rel="external">http://www.kuangbin.net/archives/hdu4863</a></p>
+<p>本题需要找出和原来的树有相同重心的子树。</p>
+<p>首先树形DP来求出重心。</p>
+<p>如果两个重心，可以分成两颗树，这两颗树大小要一样。方法就是打断两重心中间的边，然后做相同的事情。</p>
+<p>如果重心有一个。以重心为根，树形DP一下，得出dp[i][j]表示i的子树保留j个结点的种数。然后可以先求反面。 就是根的一颗子树大小大于剩下的和。</p>
+<p>暴力枚举最大子树，DP出其余子树取i个的方法数f[i]. 然后枚举最大子树取几个。</p>
+<p>使用总数减掉这个就是答案。</p>
+<p>下面贴我的代码。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+</pre></td><td class="code"><pre><span class="preprocessor">#include &lt;cstdio&gt;</span>
+<span class="preprocessor">#include &lt;cstring&gt;</span>
+<span class="preprocessor">#include &lt;iostream&gt;</span>
+<span class="preprocessor">#include &lt;algorithm&gt;</span>
+<span class="preprocessor">#include &lt;cmath&gt;</span>
+<span class="preprocessor">#include &lt;queue&gt;</span>
+
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
+
+<span class="keyword">const</span> <span class="keyword">int</span> maxn = <span class="number">510</span>;
+<span class="keyword">const</span> <span class="keyword">int</span> mod = <span class="number">10007</span>;
+
+<span class="keyword">struct</span> EDGE
+{
+	<span class="keyword">int</span> data,flag;
+	EDGE * next;
+} ES[maxn*maxn],* head[maxn];
+
+<span class="keyword">int</span> siz[maxn],big[maxn];
+<span class="keyword">int</span> dp[maxn][maxn],save[maxn];
+<span class="keyword">int</span> n,ans;
+<span class="keyword">int</span> HP;
+
+<span class="keyword">void</span> addedge(<span class="keyword">int</span> u,<span class="keyword">int</span> v)
+{
+	ES[++HP].data=v; ES[HP].flag=<span class="number">0</span>; ES[HP].next=head[u]; head[u]=ES+HP;
+	ES[++HP].data=u; ES[HP].flag=<span class="number">0</span>; ES[HP].next=head[v]; head[v]=ES+HP;
+}
+
+<span class="keyword">int</span> predfs(<span class="keyword">int</span> x,<span class="keyword">int</span> from)
+{
+	siz[x]=<span class="number">1</span>; big[x]=<span class="number">0</span>;
+	<span class="keyword">for</span> (EDGE * p=head[x];p;p=p-&gt;next)
+	{
+		<span class="keyword">if</span> (p-&gt;data==from) <span class="keyword">continue</span>;
+		siz[x]+=predfs(p-&gt;data,x);
+		big[x]=max(big[x],siz[p-&gt;data]);
+	}
+	big[x]=max(big[x],n-siz[x]);
+	<span class="keyword">return</span> siz[x];
+}
+
+<span class="keyword">void</span> dfs(<span class="keyword">int</span> x,<span class="keyword">int</span> from)
+{
+	<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++) dp[x][i]=<span class="number">0</span>; dp[x][<span class="number">0</span>]=<span class="number">1</span>;
+	<span class="keyword">int</span> tmp=<span class="number">0</span>;
+	<span class="keyword">for</span> (EDGE * p=head[x];p;p=p-&gt;next)
+	{
+		<span class="keyword">if</span> (p-&gt;flag) <span class="keyword">continue</span>;
+		<span class="keyword">if</span> (p-&gt;data==from) <span class="keyword">continue</span>;
+		
+		dfs(p-&gt;data,x);
+
+		<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=n;i++) save[i]=<span class="number">0</span>;
+		<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=tmp;i++)
+			<span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;=siz[p-&gt;data];j++)
+			{
+				<span class="keyword">int</span> add=(dp[x][i]*dp[p-&gt;data][j])%mod;
+				save[i+j]=(save[i+j]+add)%mod;
+			}
+		<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=n;i++) dp[x][i]=save[i];
+		tmp+=siz[p-&gt;data];
+	}
+
+	<span class="keyword">for</span>(<span class="keyword">int</span> i=n;i&gt;=<span class="number">0</span>;i--) dp[x][i+<span class="number">1</span>]=dp[x][i]; dp[x][<span class="number">0</span>]=<span class="number">1</span>;
+}
+
+<span class="keyword">int</span> <span class="built_in">stack</span>[maxn],tops;
+<span class="keyword">int</span> f[<span class="number">2</span>][maxn];
+
+<span class="keyword">void</span> centroid()
+{
+	predfs(<span class="number">1</span>,-<span class="number">1</span>);
+		
+	<span class="built_in">stack</span>[<span class="number">1</span>]=<span class="number">1</span>; tops=<span class="number">1</span>;
+	<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">2</span>;i&lt;=n;i++)
+		<span class="keyword">if</span> (big[i]&lt;big[<span class="built_in">stack</span>[<span class="number">1</span>]]) <span class="built_in">stack</span>[<span class="number">1</span>]=i,tops=<span class="number">1</span>;
+		<span class="keyword">else</span> <span class="keyword">if</span> (big[i]==big[<span class="built_in">stack</span>[<span class="number">1</span>]]) <span class="built_in">stack</span>[++tops]=i;
+}
+
+<span class="keyword">int</span> main()
+{
+	<span class="keyword">int</span> T;
+	<span class="built_in">scanf</span>(<span class="string">"%d"</span>,&T);
+	<span class="keyword">for</span> (<span class="keyword">int</span> TT=<span class="number">1</span>;TT&lt;=T;TT++)
+	{
+		HP=-<span class="number">1</span>; <span class="built_in">memset</span>(head,<span class="number">0</span>,<span class="keyword">sizeof</span> head);
+		<span class="built_in">scanf</span>(<span class="string">"%d"</span>,&n);
+		<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;n;i++)
+		{
+			<span class="keyword">int</span> x,y;
+			<span class="built_in">scanf</span>(<span class="string">"%d%d"</span>,&x,&y);
+			addedge(x,y);
+		}
+
+		centroid();
+
+		<span class="keyword">if</span> (tops==<span class="number">1</span>) <span class="comment">//find Centroid, and dill with situation as 1 centroid and 2 centroids</span>
+		{
+			<span class="keyword">int</span> root=<span class="built_in">stack</span>[<span class="number">1</span>];
+			
+			predfs(root,-<span class="number">1</span>);
+			dfs(root,-<span class="number">1</span>);
+			
+			ans=<span class="number">1</span>;
+
+			<span class="keyword">for</span> (EDGE * p=head[root];p;p=p-&gt;next)
+			{
+				<span class="keyword">int</span> tmp=<span class="number">0</span>;
+				<span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;=n;j++)
+					tmp=(tmp+dp[ p-&gt;data ][j])%mod;
+				ans=(ans*tmp)%mod;
+			}
+
+			<span class="keyword">for</span> (EDGE * x=head[root];x;x=x-&gt;next)
+			{
+				<span class="keyword">int</span> tmp=<span class="number">0</span>,now=<span class="number">0</span>,pre=<span class="number">1</span>; 
+				<span class="built_in">memset</span>(f,<span class="number">0</span>,<span class="keyword">sizeof</span> f); f[now][<span class="number">0</span>]=<span class="number">1</span>;
+				<span class="keyword">for</span> (EDGE * y=head[root];y;y=y-&gt;next)
+				{
+					<span class="keyword">if</span> (x==y) <span class="keyword">continue</span>;
+					now^=<span class="number">1</span>,pre^=<span class="number">1</span>;
+					<span class="keyword">for</span> (<span class="keyword">int</span> a=<span class="number">0</span>;a&lt;=n;a++) f[now][a]=<span class="number">0</span>;
+					<span class="keyword">for</span> (<span class="keyword">int</span> a=<span class="number">0</span>;a&lt;=tmp;a++)
+						<span class="keyword">for</span> (<span class="keyword">int</span> b=<span class="number">0</span>;b&lt;=siz[y-&gt;data];b++)
+						{
+							f[now][a+b]=(f[now][a+b]+f[pre][a]*dp[y-&gt;data][b])%mod;
+						}
+					tmp+=siz[y-&gt;data];
+				}
+				<span class="keyword">int</span> sum=<span class="number">0</span>;
+				<span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=n;j++)
+				{
+					sum=(sum+f[now][j-<span class="number">1</span>])%mod;
+					<span class="keyword">int</span> add=(dp[x-&gt;data][j]*sum)%mod;
+					ans=(ans-add+mod)%mod;
+				}
+			}
+		}
+		<span class="keyword">else</span>
+		{
+			<span class="keyword">int</span> x=<span class="built_in">stack</span>[<span class="number">1</span>],y=<span class="built_in">stack</span>[<span class="number">2</span>];
+			
+			<span class="keyword">for</span> (EDGE * p=head[x];p;p=p-&gt;next) <span class="keyword">if</span> (p-&gt;data==y) p-&gt;flag=<span class="number">1</span>;
+			<span class="keyword">for</span> (EDGE * p=head[y];p;p=p-&gt;next) <span class="keyword">if</span> (p-&gt;data==x) p-&gt;flag=<span class="number">1</span>;			
+
+			dfs(x,-<span class="number">1</span>); dfs(y,-<span class="number">1</span>);
+
+			ans=<span class="number">0</span>;
+			<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)
+			{
+				<span class="keyword">int</span> add=(dp[x][i]*dp[y][i])%mod;
+				ans=(ans+add)%mod;
+			}
+		}
+
+		<span class="built_in">printf</span>(<span class="string">"Case %d: %d\n"</span>,TT,ans);
+	}
+	<span class="keyword">return</span> <span class="number">0</span>;
+}
+</pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://summer-meet.github.io/3uyro5odi5st474e/hdu4863/" data-id="6jvgnvx2xobgvd03" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/2014MUT1/">2014MUT1</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hdu/">hdu</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/树型DP/">树型DP</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-hdu4862" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/45mphjzrnnhlxhjw/hdu4862/" class="article-date">
+    <a href="/3uyro5odi5st474e/hdu4862/" class="article-date">
   <time datetime="2014-07-23T12:35:15.000Z" itemprop="datePublished">Jul 23 2014</time>
 </a>
     
@@ -78,7 +448,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/45mphjzrnnhlxhjw/hdu4862/">hdu4862 Jump</a>
+      <a class="article-title" href="/3uyro5odi5st474e/hdu4862/">hdu4862 Jump</a>
     </h1>
   
 
@@ -404,7 +774,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://summer-meet.github.io/45mphjzrnnhlxhjw/hdu4862/" data-id="mhoxpvzsgnwri79c" class="article-share-link">Share</a>
+      <a data-url="http://summer-meet.github.io/3uyro5odi5st474e/hdu4862/" data-id="848awjutde6dqkv4" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/2014MUT1/">2014MUT1</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hdu/">hdu</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/最小路径覆盖/">最小路径覆盖</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络流/">网络流</a></li></ul>
@@ -425,7 +795,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/a-thousand-floor/">a-thousand-floor</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/black-sheep-wall/">black-sheep-wall</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/something-for-nothing/">something-for-nothing</a><span class="category-list-count">2</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/a-thousand-floor/">a-thousand-floor</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/black-sheep-wall/">black-sheep-wall</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/something-for-nothing/">something-for-nothing</a><span class="category-list-count">2</span></li></ul>
     </div>
   </div>
 
@@ -434,7 +804,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/2014MUT1/">2014MUT1</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BOJ/">BOJ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cantor_Expansion/">Cantor_Expansion</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DBFS/">DBFS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DLX/">DLX</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DP/">DP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dancing-Links/">Dancing Links</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/POJ/">POJ</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hdu/">hdu</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/poj/">poj</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tips/">tips</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zip/">zip</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/搜索/">搜索</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数独/">数独</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/最小路径覆盖/">最小路径覆盖</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/网络流/">网络流</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/2014MUT1/">2014MUT1</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BOJ/">BOJ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cantor_Expansion/">Cantor_Expansion</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DBFS/">DBFS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DLX/">DLX</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DP/">DP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dancing-Links/">Dancing Links</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/POJ/">POJ</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hdu/">hdu</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/poj/">poj</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tips/">tips</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zip/">zip</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/搜索/">搜索</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数独/">数独</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/最小路径覆盖/">最小路径覆盖</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/树型DP/">树型DP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/网络流/">网络流</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -443,7 +813,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/2014MUT1/" style="font-size: 10.00px;">2014MUT1</a><a href="/tags/BOJ/" style="font-size: 10.00px;">BOJ</a><a href="/tags/Cantor_Expansion/" style="font-size: 10.00px;">Cantor_Expansion</a><a href="/tags/DBFS/" style="font-size: 10.00px;">DBFS</a><a href="/tags/DLX/" style="font-size: 10.00px;">DLX</a><a href="/tags/DP/" style="font-size: 10.00px;">DP</a><a href="/tags/Dancing-Links/" style="font-size: 10.00px;">Dancing Links</a><a href="/tags/POJ/" style="font-size: 15.00px;">POJ</a><a href="/tags/hdu/" style="font-size: 10.00px;">hdu</a><a href="/tags/poj/" style="font-size: 10.00px;">poj</a><a href="/tags/tips/" style="font-size: 10.00px;">tips</a><a href="/tags/zip/" style="font-size: 10.00px;">zip</a><a href="/tags/搜索/" style="font-size: 20.00px;">搜索</a><a href="/tags/数独/" style="font-size: 10.00px;">数独</a><a href="/tags/最小路径覆盖/" style="font-size: 10.00px;">最小路径覆盖</a><a href="/tags/网络流/" style="font-size: 10.00px;">网络流</a>
+      <a href="/tags/2014MUT1/" style="font-size: 13.33px;">2014MUT1</a><a href="/tags/BOJ/" style="font-size: 10.00px;">BOJ</a><a href="/tags/Cantor_Expansion/" style="font-size: 10.00px;">Cantor_Expansion</a><a href="/tags/DBFS/" style="font-size: 10.00px;">DBFS</a><a href="/tags/DLX/" style="font-size: 10.00px;">DLX</a><a href="/tags/DP/" style="font-size: 10.00px;">DP</a><a href="/tags/Dancing-Links/" style="font-size: 10.00px;">Dancing Links</a><a href="/tags/POJ/" style="font-size: 16.67px;">POJ</a><a href="/tags/hdu/" style="font-size: 13.33px;">hdu</a><a href="/tags/poj/" style="font-size: 10.00px;">poj</a><a href="/tags/tips/" style="font-size: 10.00px;">tips</a><a href="/tags/zip/" style="font-size: 10.00px;">zip</a><a href="/tags/搜索/" style="font-size: 20.00px;">搜索</a><a href="/tags/数独/" style="font-size: 10.00px;">数独</a><a href="/tags/最小路径覆盖/" style="font-size: 10.00px;">最小路径覆盖</a><a href="/tags/树型DP/" style="font-size: 10.00px;">树型DP</a><a href="/tags/网络流/" style="font-size: 10.00px;">网络流</a>
     </div>
   </div>
 
@@ -452,7 +822,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07">July 2014</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06">June 2014</a><span class="archive-list-count">6</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07">July 2014</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06">June 2014</a><span class="archive-list-count">6</span></li></ul>
     </div>
   </div>
 
@@ -464,23 +834,23 @@
       <ul>
         
           <li>
-            <a href="/45mphjzrnnhlxhjw/hdu4862/">hdu4862 Jump</a>
+            <a href="/3uyro5odi5st474e/hdu4863/">hdu4863 Centroid of a Tree</a>
           </li>
         
           <li>
-            <a href="/45mphjzrnnhlxhjw/poj1084/">poj1084 Square Destroyer</a>
+            <a href="/3uyro5odi5st474e/hdu4862/">hdu4862 Jump</a>
           </li>
         
           <li>
-            <a href="/45mphjzrnnhlxhjw/poj3074/">poj3074 Sudoku</a>
+            <a href="/3uyro5odi5st474e/poj1084/">poj1084 Square Destroyer</a>
           </li>
         
           <li>
-            <a href="/45mphjzrnnhlxhjw/superinput/">一个输入“外挂”</a>
+            <a href="/3uyro5odi5st474e/poj3074/">poj3074 Sudoku</a>
           </li>
         
           <li>
-            <a href="/45mphjzrnnhlxhjw/poj3740/">poj3740 Easy Finding</a>
+            <a href="/3uyro5odi5st474e/superinput/">一个输入“外挂”</a>
           </li>
         
       </ul>
